@@ -11,11 +11,12 @@ const callback = async (request, response) => {
         const endpoint = `${request.method}:${url.pathname}`;
         let results;
         switch (endpoint) {
-            case "GET:/":
+            case "GET:/teams":
                 results = getTeams();
-
                 break;
-
+            case "POST:/team":
+                results = getTeams();
+                break;
             default:
                 break;
         }

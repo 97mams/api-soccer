@@ -5,4 +5,4 @@ export const db = mysql.createPool({
     database: "soccer",
     password: "",
     user: "root"
-});
+}).promise();

@@ -11,6 +11,6 @@
   "author": "anjaniainamamisoa@gmail.com",
   "license": "ISC",
   "dependencies": {
-    "sqlite3": "^5.1.7"
+    "mysql2": "^3.11.0"
   }
 }

@@ -4,8 +4,8 @@ import { db } from "./connectDb.js"
  * @return {Promise<Team[]>}
  */
 export async function allTeam() {
-    const query = "SELECT * from teams";
-    const row = await db.query(query);
+    const sql = "SELECT * from teams";
+    const row = await db.query(sql);
     return row[0];
 }
 
@@ -14,8 +14,8 @@ export async function allTeam() {
  * @returns @return {Promise<Team[]>}
  */
 export async function createTeam({ name }) {
-    const query = `INSERT INTO teams (name) VALUE (?)`;
-    const [result] = await db.query(query, [name]);
+    const sql = `INSERT INTO teams (name) VALUE (?)`;
+    const [result] = await db.query(sql, [name]);
 
     return {
         id: result.insertId,
@@ -28,9 +28,15 @@ export async function createTeam({ name }) {
  * @param {number} number
  * @param {number} lose
  * @param {number} point
- * @return {Promise<Team[]>}
+ * @return {string}
  */
-export async function updateTeam(params) {
-    console.log(params);
+export async function updateTeam(params, id) {
+    const sql = `
+        UPDATE teams
+        SET ?
+        WHERE ?`
+    await db.query(sql, [{ win: params.win, lose: params.lose, point: params.point }, { id: id }]);
+
+    return { message: "success" };
 
 }

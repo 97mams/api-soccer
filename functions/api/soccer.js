@@ -1,4 +1,4 @@
-import { allTeam, createTeam } from "../soccerStorage.js"
+import { allTeam, createTeam, updateTeam } from "../soccerStorage.js"
 import { json } from "node:stream/consumers";
 
 export function getTeams() {
@@ -13,6 +13,10 @@ export async function addTeam(resquest, respose) {
             message: "this name is also created"
         };
     }
-
     return createTeam(teamName);
+}
+
+export async function modifTeam(resquest, respose, url) {
+    const id = url.searchParams.get('id');
+    return await updateTeam(await json(resquest), id);
 }

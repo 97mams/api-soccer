@@ -1,5 +1,5 @@
 import { createServer } from "node:http";
-import { getTeam, getTeams, addTeam, modifTeam } from "./functions/api/soccer.js";
+import { getTeam, getTeams, addTeam, modifTeam } from "./functions/api/Team.js";
 
 const port = 3000;
 const host = "127.0.0.1";

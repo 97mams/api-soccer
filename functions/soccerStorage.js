@@ -35,8 +35,7 @@ export async function updateTeam(params, id) {
         UPDATE teams
         SET ?
         WHERE ?`
-    await db.query(sql, [{ win: params.win, lose: params.lose, point: params.point }, { id: id }]);
+    const [row] = await db.query(sql, [{ win: params.win, lose: params.lose, point: params.point }, { id: id }]);
 
-    return { message: "success" };
-
+    return row.changedRows;
 }

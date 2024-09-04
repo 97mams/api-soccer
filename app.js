@@ -1,5 +1,5 @@
 import { createServer } from "node:http";
-import { getTeams, addTeam, modifTeam } from "./functions/api/soccer.js";
+import { getTeam, getTeams, addTeam, modifTeam } from "./functions/api/soccer.js";
 
 const port = 3000;
 const host = "127.0.0.1";
@@ -12,8 +12,11 @@ const callback = async (request, response) => {
 
         let results;
         switch (endpoint) {
-            case "GET:/team":
+            case "GET:/teams":
                 results = await getTeams();
+                break;
+            case "GET:/team":
+                results = await getTeam(request, response, url);
                 break;
             case "POST:/team":
                 results = await addTeam(request, response);

@@ -8,7 +8,12 @@ export async function getTeams(resquest, respose) {
 export async function getTeam(resquest, respose, url) {
     const data = url.searchParams.get('name');
     const teamName = data.toUpperCase();
-    const findTeam = (await allTeam()).find(team => team.name === teamName);
+    const findTeam = (await allTeam()).find(team => team.name === teamName.trim());
+    if (!findTeam) {
+        return {
+            "message": "Team not found"
+        }
+    }
     return findTeam;
 }
 

@@ -114,14 +114,13 @@ Thank you for considering contributing to this project! Here are the steps to ge
 #### 2. Clone your fork
 - Clone your forked repository to your local machine using the following command:
   ```bash
-  git clone https://github.com/your-username/your-repository-name.git
+  git clone https://github.com/97mams/api-soccer.git
   ```
-  Replace `your-username` and `your-repository-name` with your GitHub username and the name of the repository.
 
 #### 3. Install dependencies
 - Navigate to the project directory:
   ```bash
-  cd your-repository-name
+  cd api-soccer
   ```
 - Install the project's dependencies using `pnpm`:
   ```bash

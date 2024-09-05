@@ -22,7 +22,7 @@ const callback = async (request, response) => {
                 results = await addTeam(request, response);
                 break;
             case "PUT:/team":
-                await modifTeam(request, response, url);
+                results = await modifTeam(request, response, url);
                 break;
             default:
                 break;

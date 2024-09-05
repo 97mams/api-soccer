@@ -38,8 +38,11 @@ export async function modifTeam(resquest, respose, url) {
     const id = url.searchParams.get('id');
     const params = await json(resquest)
     const stat = await updateStat(params, id)
-
-    console.log(await updateTeam(stat, id))
+    const message = "Team success uptaded"
+    const result = await updateTeam(stat, id)
+    console.log(typeof result);
+    if (!result) return
+    return jsonResponse(message, stat)
 }
 
 function jsonResponse(message, team) {

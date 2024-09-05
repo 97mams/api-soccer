@@ -42,15 +42,14 @@ export async function modifTeam(resquest, respose, url) {
     const result = await updateTeam(stat, id)
     console.log(typeof result);
     if (!result) return
+    Object.assign(stat, { id })
     return jsonResponse(message, stat)
 }
 
 function jsonResponse(message, team) {
     const json = {
         message: message,
-        team: [
-            team
-        ]
+        team: team
     };
 
     return json;

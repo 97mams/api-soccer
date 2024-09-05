@@ -1,5 +1,6 @@
 import { allTeam, createTeam, updateTeam } from "../soccerStorage.js"
 import { json } from "node:stream/consumers";
+import { updateStat } from "./StatTeam.js";
 
 export async function getTeams(resquest, respose) {
     return await allTeam()
@@ -35,7 +36,9 @@ export async function addTeam(resquest, respose) {
 export async function modifTeam(resquest, respose, url) {
     const id = url.searchParams.get('id');
     const params = await json(resquest)
-    console.log(await updateTeam(params, id))
+    const stat = await updateStat(params, id)
+
+    console.log(await updateTeam(stat, id))
 }
 
 function jsonResponse(message, team) {

@@ -1,4 +1,4 @@
-import { allTeam } from "../soccerStorage"
+import { allTeam } from "../soccerStorage.js"
 
 /**
  * calculer la somme du points ganger par chaque equipe
@@ -45,15 +45,19 @@ function equalMatch(getEqual, equal) {
  */
 export async function updateStat(param, id) {
     const teams = allTeam();
-    const wine = wineMatch(team.wine, param)
-    const equal = equalMatch(team.wine, param)
-    const team = (await teams).find(team => team.id === id)
-    const resultStat = {
-        wine: wine,
-        lose: loseMatch(team.wine, param),
-        equal: equal,
-        point: pointTeam(wine, equal)
-    }
-    console.log(resultStat);
+    const team = (await teams).find(team => team.id === parseInt(id))
 
+    const wine = wineMatch(team.wine, param.wine)
+    const equal = equalMatch(team.equal, param.equal)
+    const promise = new Promise(resolve => {
+        const resultStat = {
+            wine: wine,
+            lose: loseMatch(team.lose, param.lose),
+            equal: equal,
+            point: pointTeam(wine, equal)
+        }
+        resolve(resultStat)
+
+    })
+    return promise
 }

@@ -41,6 +41,17 @@ function equalMatch(getEqual, equal) {
 }
 
 /**
+ * calculer le total du match
+ * @param {number} wine
+ * @param {number} lose
+ * @param {number} equal
+ * @returns {number}
+ */
+function totalMatch(wine, lose, equal) {
+    return equal + lose + wine
+}
+
+/**
  *@return { Promise<Stat[]>}
  */
 export async function updateStat(param, id) {
@@ -49,12 +60,14 @@ export async function updateStat(param, id) {
 
     const wine = wineMatch(team.wine, param.wine)
     const equal = equalMatch(team.equal, param.equal)
+    const lose = loseMatch(team.lose, param.lose)
     const promise = new Promise(resolve => {
         const resultStat = {
             wine: wine,
-            lose: loseMatch(team.lose, param.lose),
+            lose: lose,
             equal: equal,
-            point: pointTeam(wine, equal)
+            point: pointTeam(wine, equal),
+            match: totalMatch(wine, lose, equal)
         }
         resolve(resultStat)
 

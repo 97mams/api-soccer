@@ -8,9 +8,10 @@ export async function getTeams(resquest, respose) {
 
 export async function getTeam(resquest, respose, url) {
     const data = url.searchParams.get('name');
+
     let message
     const teamName = data.toUpperCase();
-    const findTeam = (await allTeam()).find(team => team.name === teamName.trim());
+    const findTeam = (await allTeam()).find(team => team.name.toUpperCase() === teamName.trim());
     if (!findTeam) {
         message = "Team not found"
         return jsonResponse(message, findTeam)

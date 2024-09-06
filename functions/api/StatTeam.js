@@ -2,8 +2,9 @@ import { allTeam } from "../teamStorage.js"
 
 /**
  * calculer la somme du points ganger par chaque equipe
- * @param {int} params 
- * @return point
+ * @param {number} wine
+ * @param {number} equal
+ * @return {number}point
  */
 function pointTeam(wine, equal) {
     const point = (wine * 3) + equal
@@ -14,7 +15,7 @@ function pointTeam(wine, equal) {
  * calculer la nombre du victoire d'un équipe
  * @param {number} getwine
  * @param {number} wine
- * @returns {number}
+ * @return {number}
  */
 function wineMatch(getWine, wine) {
     return wine + getWine
@@ -34,7 +35,7 @@ function loseMatch(getLose, lose) {
  * calculer la nombre du match null d'un équipe
  * @param {number} getEqual
  * @param {number} equal
- * @returns {number}
+ * @return {number} equal
  */
 function equalMatch(getEqual, equal) {
     return equal + getEqual
@@ -45,13 +46,15 @@ function equalMatch(getEqual, equal) {
  * @param {number} wine
  * @param {number} lose
  * @param {number} equal
- * @returns {number}
+ * @return {number} match
  */
 function totalMatch(wine, lose, equal) {
     return equal + lose + wine
 }
 
 /**
+ * @param {Object} stat
+ * @param {number} id
  *@return { Promise<Stat[]>}
  */
 export async function updateStat(param, id) {

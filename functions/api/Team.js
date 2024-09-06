@@ -1,4 +1,4 @@
-import { allTeam, createTeam, updateTeam } from "../soccerStorage.js"
+import { allTeam, createTeam, updateTeam } from "../teamStorage.js"
 import { json } from "node:stream/consumers";
 import { updateStat } from "./StatTeam.js";
 

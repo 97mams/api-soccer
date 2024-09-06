@@ -1,4 +1,4 @@
-import { allTeam } from "../soccerStorage.js"
+import { allTeam } from "../teamStorage.js"
 
 /**
  * calculer la somme du points ganger par chaque equipe

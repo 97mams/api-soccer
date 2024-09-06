@@ -46,6 +46,11 @@ export async function modifTeam(resquest, respose, url) {
     return jsonResponse(message, stat)
 }
 
+export async function countTeam() {
+    const team = await allTeam();
+    return team.length();
+}
+
 function jsonResponse(message, team) {
     const json = {
         message: message,

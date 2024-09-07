@@ -2,11 +2,8 @@ import { getPoule } from "../pouleStorage.js";
 import { allTeam } from "../teamStorage.js";
 import { countTeam } from "./Team.js";
 
-const NUMBERT_TEAM_POULE = 4
-
 function pouleName() {
-    const a = ["A", "B", "C", "D"];
-
+    return ["A", "B", "C", "D"];
 }
 
 pouleName()
@@ -41,15 +38,17 @@ function spintArrayIntoChunks(array, chunkSize) {
 function teamId(keys, teams) {
     const result = []
     for (let index = 0; index < keys.length; index++) {
-        result.push(teams[keys[index]].id);
+        result.push({ teamId: teams[keys[index]].id });
     }
     return result;
 }
 
 function generateJsonPoule(arrayPouleName, arrayTeamKey, teams) {
-    arrayPouleName.forEach((element, key) => {
+    console.log(arrayTeamKey);
+
+    arrayPouleName.forEach((name, key) => {
         const result = {
-            name: element, team: teamId(arrayTeamKey[key], teams)
+            name: name, team: teamId(arrayTeamKey[key], teams)
         }
         console.log(result);
 
@@ -63,8 +62,9 @@ export async function allPoule() {
 }
 
 
-export async function generatRandomPoule(numberTeamPoule) {
-    const arrayPouleName = ["A", "B", "C"];
+export async function generatRandomPoule() {
+    const arrayPouleName = pouleName();
+    const numberTeamPoule = pouleName().length - 1
     let teamArray = await allTeam();
     let keyArrayTeam = await randomKeyArrayTeam();
 
@@ -74,4 +74,4 @@ export async function generatRandomPoule(numberTeamPoule) {
 
 }
 
-generatRandomPoule(NUMBERT_TEAM_POULE);
+generatRandomPoule();

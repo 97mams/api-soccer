@@ -2,8 +2,10 @@ import { getPoule } from "../pouleStorage.js";
 import { allTeam } from "../teamStorage.js";
 import { countTeam } from "./Team.js";
 
+const NUMBERT_TEAM_POULE = 4
+
 function pouleName() {
-    const a = ["A", "B", "C", "D", "E", "F"];
+    const a = ["A", "B", "C", "D"];
 
 }
 
@@ -21,10 +23,38 @@ async function randomKeyArrayTeam() {
         } else {
             team.push(random)
         }
-
-
     }
-    console.log(team);
+    return team;
+
+}
+
+
+function spintArrayIntoChunks(array, chunkSize) {
+    const result = [];
+    for (let index = 0; index < array.length; index += chunkSize) {
+        const chunk = array.slice(index, index + chunkSize)
+        result.push(chunk)
+    }
+    return result
+}
+
+function teamId(keys, teams) {
+    const result = []
+    for (let index = 0; index < keys.length; index++) {
+        result.push(teams[keys[index]].id);
+    }
+    return result;
+}
+
+function generateJsonPoule(arrayPouleName, arrayTeamKey, teams) {
+    arrayPouleName.forEach((element, key) => {
+        const result = {
+            name: element, team: teamId(arrayTeamKey[key], teams)
+        }
+        console.log(result);
+
+    });
+
 
 }
 
@@ -32,19 +62,16 @@ export async function allPoule() {
     return await getPoule();
 }
 
-export async function generatRandomPoule() {
-    const arrayPouleName = ["A", "B", "C", "D", "E", "F"];
+
+export async function generatRandomPoule(numberTeamPoule) {
+    const arrayPouleName = ["A", "B", "C"];
     let teamArray = await allTeam();
-    let poule = [];
     let keyArrayTeam = await randomKeyArrayTeam();
-    const counter = await countTeam();
-    for (let index = 0; index < counter; index++) {
-        const teamId = teamArray.find(team => team.id === teamArray[keyArrayTeam].id);
-        const name = arrayPouleName[index];
-        poule[index] = { name: name, teamId: teamId.id }
-    }
-    console.log(keyArrayTeam);
+
+
+    const splitArray = spintArrayIntoChunks(keyArrayTeam, numberTeamPoule);
+    const result = generateJsonPoule(arrayPouleName, splitArray, teamArray)
 
 }
 
-randomKeyArrayTeam()
+generatRandomPoule(NUMBERT_TEAM_POULE);

@@ -4,7 +4,7 @@ import { db } from "./connectDb.js";
  * @return {Promise<Poule[]>}
  */
 export async function getPoule() {
-    const sql = "SELECT * FROM poule LIMITE 100";
+    const sql = "SELECT * FROM poule LIMIT 100";
     const row = await db.query(sql);
     return row;
 }

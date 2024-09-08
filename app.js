@@ -1,5 +1,7 @@
 import { createServer } from "node:http";
 import { getTeam, getTeams, addTeam, modifTeam } from "./functions/api/Team.js";
+import { getPoule } from "./functions/pouleStorage.js";
+import { allPoule } from "./functions/api/Poule.js";
 
 const port = 3000;
 const host = "127.0.0.1";
@@ -23,6 +25,12 @@ const callback = async (request, response) => {
                 break;
             case "PUT:/team":
                 results = await modifTeam(request, response, url);
+                break;
+            case "GET:/poules":
+                results = await allPoule();
+                break;
+            case "GET:/poule":
+                results = await getPoule(request, response, url);
                 break;
             default:
                 break;

@@ -10,6 +10,15 @@ export async function getPoule() {
 }
 
 /**
+ * @return {Promise<PouleTypes[]>}
+ */
+export async function getPouleTypes() {
+    const sgl = "SELECT * FROM poule_types";
+    const [row] = db.query(sgl);
+    return row
+}
+
+/**
  * create a poule
  * @param {number | string} params 
  * @return {Promise<Poule[]>}

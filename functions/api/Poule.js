@@ -1,9 +1,9 @@
 import { createPoule, getPoule } from "../pouleStorage.js";
-import { allTeam } from "../teamStorage.js";
+import { allTeam, getPouleTypes } from "../teamStorage.js";
 import { countTeam } from "./Team.js";
 
-function pouleName() {
-    return ["A", "B", "C", "D"];
+async function pouleName() {
+    return await getPouleTypes;
 }
 
 

@@ -9,14 +9,6 @@ export async function allTeam() {
     return row[0];
 }
 
-/**
- * @return {Promise<PouleTypes[]>}
- */
-export async function getPouleTypes() {
-    const sgl = "SELECT * FROM poule_types";
-    const [row] = db.query(sgl);
-    return row
-}
 
 /**
  * @param {string} name

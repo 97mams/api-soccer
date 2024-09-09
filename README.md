@@ -1,7 +1,3 @@
-Bien sûr ! Voici une version fusionnée de la documentation avec les étapes pour contribuer au projet :
-
----
-
 ## Football API Documentation
 
 ### Introduction

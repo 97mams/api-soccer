@@ -10,9 +10,18 @@ export async function allTeam() {
 }
 
 /**
+ * @return {Promise<PouleTypes[]>}
+ */
+export async function getPouleTypes() {
+    const sgl = "SELECT * FROM poule_types";
+    const [row] = db.query(sgl);
+    return row
+}
+
+/**
  * @param {string} name
  * @param {Date} created_at
- * @returns @return {Promise<Team[]>}
+ * @return {Promise<Team[]>}
  */
 export async function createTeam({ name, created_at = new Date() }) {
     const sql = `INSERT INTO teams (name, created_at) VALUE (?,?)`;

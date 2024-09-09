@@ -4,8 +4,8 @@ import { db } from "./connectDb.js";
  * @return {Promise<Poule[]>}
  */
 export async function getPoule() {
-    const sql = "SELECT * FROM poule LIMIT 100";
-    const row = await db.query(sql);
+    const sql = "SELECT * FROM poule INNER JOIN teams on poule.id_teams = teams.id";
+    const [row] = await db.query(sql);
     return row;
 }
 
@@ -19,5 +19,4 @@ export async function createPoule(params) {
     const sql = `INSERT INTO poule (name, id_teams, created_at) VALUES (?,?,?)`
 
     const row = await db.query(sql, [params.name, params.id_team, created_at])
-    // console.log(row);
 }

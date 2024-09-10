@@ -25,7 +25,9 @@ export async function getPouleTypes() {
  */
 export async function createPoule(params) {
     const created_at = new Date()
-    const sql = `INSERT INTO poule (name, id_teams, created_at) VALUES (?,?,?)`
+    const sql = `INSERT INTO poule (id_type, id_team,created_at) VALUES (?,?,?)`
 
-    const row = await db.query(sql, [params.name, params.id_team, created_at])
+    const row = await db.query(sql, [params.id_poule, params.id_team, created_at])
+    console.log(row);
+
 }

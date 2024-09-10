@@ -93,5 +93,3 @@ export async function addPoule() {
 export async function allPoule() {
     return getPoule();
 }
-
-addPoule()

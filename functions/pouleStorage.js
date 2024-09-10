@@ -4,7 +4,7 @@ import { db } from "./connectDb.js";
  * @return {Promise<Poule[]>}
  */
 export async function getPoule() {
-    const sql = "SELECT * FROM poule";
+    const sql = "SELECT * FROM poule JOIN poule_types JOIN teams on poule_types.id = poule.id_type AND teams.id = poule.id_team ";
     const [row] = await db.query(sql);
     return row;
 }

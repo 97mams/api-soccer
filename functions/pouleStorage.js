@@ -4,7 +4,7 @@ import { db } from "./connectDb.js";
  * @return {Promise<Poule[]>}
  */
 export async function getPoule() {
-    const sql = "SELECT * FROM poule INNER JOIN teams on poule.id_teams = teams.id";
+    const sql = "SELECT * FROM poule";
     const [row] = await db.query(sql);
     return row;
 }
@@ -14,7 +14,7 @@ export async function getPoule() {
  */
 export async function getPouleTypes() {
     const sgl = "SELECT * FROM poule_types";
-    const [row] = db.query(sgl);
+    const [row] = await db.query(sgl);
     return row
 }
 

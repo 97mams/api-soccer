@@ -6,9 +6,6 @@ async function pouleName() {
     return await getPouleTypes();
 }
 
-
-pouleName()
-
 async function randomKeyArrayTeam() {
     const numberTeam = await countTeam()
     let breakLoop = numberTeam
@@ -29,26 +26,31 @@ async function randomKeyArrayTeam() {
 
 function spintArrayIntoChunks(array, chunkSize) {
     const result = [];
+
     for (let index = 0; index < array.length; index += chunkSize) {
         const chunk = array.slice(index, index + chunkSize)
         result.push(chunk)
     }
+
     return result
 }
 
 function teamId(keys, teams) {
-    const result = []
+    const result = [];
+
     for (let index = 0; index < keys.length; index++) {
         result.push(teams[keys[index]].id);
     }
     return result;
 }
 
+
 function generateJsonPoule(arrayPouleName, arrayTeamKey, teams) {
     const result = [];
-    arrayPouleName.forEach((name, key) => {
+    arrayPouleName.forEach((poule, key) => {
+
         const json = {
-            name: name, team: teamId(arrayTeamKey[key], teams)
+            pouleId: poule.id, teamId: teamId(arrayTeamKey[key], teams)
         }
         result.push(json);
 
@@ -62,11 +64,10 @@ function generateJsonPoule(arrayPouleName, arrayTeamKey, teams) {
 
 
 export async function generatRandomPoule() {
-    const arrayPouleName = pouleName();
-    const numberTeamPoule = pouleName().length - 1
+    const arrayPouleName = await pouleName();
+    const numberTeamPoule = arrayPouleName.length - 1
     let teamArray = await allTeam();
     let keyArrayTeam = await randomKeyArrayTeam();
-
 
     const splitArray = spintArrayIntoChunks(keyArrayTeam, numberTeamPoule);
     const result = generateJsonPoule(arrayPouleName, splitArray, teamArray)
@@ -75,9 +76,10 @@ export async function generatRandomPoule() {
 
 function splitPoule(params) {
     for (let poule in params) {
-        params[poule].team.forEach(id_team => {
-            const name = params[poule].name
-            createPoule({ name, id_team })
+        params[poule].teamId.forEach(id_team => {
+            const id_poule = params[poule].pouleId
+
+            createPoule({ id_poule, id_team })
         })
     }
 }
@@ -87,6 +89,9 @@ export async function addPoule() {
     splitPoule(generatePoule)
     return generatePoule
 }
+
 export async function allPoule() {
     return getPoule();
 }
+
+addPoule()

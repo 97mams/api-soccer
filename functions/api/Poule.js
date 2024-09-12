@@ -120,7 +120,7 @@ function jsonResponsPoule(poules, name) {
         teams: jsonTeam
     }
 
-    console.log(json);
+    return json;
 
 
 
@@ -143,7 +143,6 @@ async function pouleFilterByName() {
 }
 
 export async function allPoule() {
-    console.log(pouleFilterByName);
     const poules = await pouleFilterByName()
     return poules;
 }

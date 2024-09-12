@@ -3,7 +3,9 @@ import { json } from "node:stream/consumers";
 import { updateStat } from "./StatTeam.js";
 
 export async function getTeams(resquest, respose) {
-    return await allTeam()
+    const team = await allTeam()
+    team.push(await countTeam())
+    return team
 }
 
 export async function getTeam(resquest, respose, url) {

@@ -32,6 +32,9 @@ const callback = async (request, response) => {
             case "GET:/poule":
                 results = await getPoule(request, response, url);
                 break;
+            case "POST:/poules":
+                results = await addPoules(request, response, url);
+                break;
             default:
                 break;
         }

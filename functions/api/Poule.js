@@ -90,40 +90,39 @@ export async function addPoule() {
     return generatePoule
 }
 
-function splitTeam(teams) {
+function splitTeam(teams, typePoule) {
     const teamInPoule = []
 
     for (let team of teams) {
 
-        const jsonTeam = {
-            teamId: team.id_team,
-            name: team.name,
-            wine: team.wine,
-            lose: team.lose,
-            equal: team.equal,
-            point: team.point,
+        if (team.name_type === typePoule) {
+            const jsonTeam = {
+                pouleId: team.id_poule,
+                teamId: team.id_team,
+                name: team.name,
+                wine: team.wine,
+                lose: team.lose,
+                equal: team.equal,
+                point: team.point,
+            }
+            teamInPoule.push(jsonTeam)
         }
-        teamInPoule.push(jsonTeam)
     }
     return teamInPoule
 
 }
 
-function jsonResponsPoule(poules) {
-    const result = []
-    for (let poule in poules) {
-        const jsonTeam = splitTeam(poules)
-        console.log(poules);
+function jsonResponsPoule(poules, name) {
+    const jsonTeam = splitTeam(poules, name)
 
-        // const json = {
-        //     id: poules.id_poule,
-        //     poule: poules.name_type,
-        //     teams: jsonTeam
-        // }
-        // result.push(json)
+    const json = {
+        poule: name,
+        teams: jsonTeam
     }
 
-    console.log(result);
+    console.log(json);
+
+
 
 
 }
@@ -134,15 +133,17 @@ async function pouleFilterByName() {
 
     const result = []
     name.forEach(pouleName => {
-        const pouleByName = poule.filter(poule => pouleName.name_type = poule.name_type)
-        jsonResponsPoule(pouleByName);
-    })
-    // console.log(jsonPoule
+        const type = pouleName.name_type
+        const pouleByName = poule.filter(poule => type === poule.name_type)
 
+        result.push(jsonResponsPoule(pouleByName, type))
+    })
+
+    return result
 }
 
-pouleFilterByName()
-
 export async function allPoule() {
-    return await getPoule();
+    console.log(pouleFilterByName);
+    const poules = await pouleFilterByName()
+    return poules;
 }

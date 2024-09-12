@@ -1,3 +1,4 @@
+import { json } from "node:stream/consumers"
 import { createPoule, getPoule, getPouleTypes } from "../pouleStorage.js";
 import { allTeam } from "../teamStorage.js";
 import { countTeam } from "./Team.js";
@@ -132,13 +133,16 @@ export async function allPoule() {
     return poules;
 }
 
-export async function generatRandomPoule() {
+export async function generatRandomPoule(request, response, url) {
+    const valueRandom = await json(request);
     const arrayPouleName = await pouleName();
     const numberTeamPoule = arrayPouleName.length - 1
     let teamArray = await allTeam();
     let keyArrayTeam = await randomKeyArrayTeam();
-
     const splitArray = spintArrayIntoChunks(keyArrayTeam, numberTeamPoule);
-    const result = generateJsonPoule(arrayPouleName, splitArray, teamArray)
-    return await getPoule();
+    if (valueRandom.bool) {
+        generateJsonPoule(arrayPouleName, splitArray, teamArray)
+        return await getPoule();
+    }
+    return;
 }

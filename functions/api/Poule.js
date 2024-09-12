@@ -57,21 +57,6 @@ function generateJsonPoule(arrayPouleName, arrayTeamKey, teams) {
     });
 
     return result;
-
-
-}
-
-
-
-export async function generatRandomPoule() {
-    const arrayPouleName = await pouleName();
-    const numberTeamPoule = arrayPouleName.length - 1
-    let teamArray = await allTeam();
-    let keyArrayTeam = await randomKeyArrayTeam();
-
-    const splitArray = spintArrayIntoChunks(keyArrayTeam, numberTeamPoule);
-    const result = generateJsonPoule(arrayPouleName, splitArray, teamArray)
-    return result;
 }
 
 function splitPoule(params) {
@@ -145,4 +130,15 @@ async function pouleFilterByName() {
 export async function allPoule() {
     const poules = await pouleFilterByName()
     return poules;
+}
+
+export async function generatRandomPoule() {
+    const arrayPouleName = await pouleName();
+    const numberTeamPoule = arrayPouleName.length - 1
+    let teamArray = await allTeam();
+    let keyArrayTeam = await randomKeyArrayTeam();
+
+    const splitArray = spintArrayIntoChunks(keyArrayTeam, numberTeamPoule);
+    const result = generateJsonPoule(arrayPouleName, splitArray, teamArray)
+    return await getPoule();
 }

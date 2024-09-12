@@ -90,6 +90,59 @@ export async function addPoule() {
     return generatePoule
 }
 
+function splitTeam(teams) {
+    const teamInPoule = []
+
+    for (let team of teams) {
+
+        const jsonTeam = {
+            teamId: team.id_team,
+            name: team.name,
+            wine: team.wine,
+            lose: team.lose,
+            equal: team.equal,
+            point: team.point,
+        }
+        teamInPoule.push(jsonTeam)
+    }
+    return teamInPoule
+
+}
+
+function jsonResponsPoule(poules) {
+    const result = []
+    for (let poule in poules) {
+        const jsonTeam = splitTeam(poules)
+        console.log(poules);
+
+        // const json = {
+        //     id: poules.id_poule,
+        //     poule: poules.name_type,
+        //     teams: jsonTeam
+        // }
+        // result.push(json)
+    }
+
+    console.log(result);
+
+
+}
+
+async function pouleFilterByName() {
+    const poule = await getPoule()
+    const name = await pouleName()
+
+    const result = []
+    name.forEach(pouleName => {
+        const pouleByName = poule.filter(poule => pouleName.name_type = poule.name_type)
+        jsonResponsPoule(pouleByName);
+    })
+    // console.log(jsonPoule
+
+}
+
+pouleFilterByName()
+
 export async function allPoule() {
-    return getPoule();
+    return await getPoule();
 }

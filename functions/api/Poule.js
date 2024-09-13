@@ -40,7 +40,7 @@ function teamId(keys, teams) {
     const result = [];
 
     for (let index = 0; index < keys.length; index++) {
-        result.push(teams[keys[index]].id);
+        result.push(teams[keys[index]].id_team);
     }
     return result;
 }
@@ -49,14 +49,11 @@ function teamId(keys, teams) {
 function generateJsonPoule(arrayPouleName, arrayTeamKey, teams) {
     const result = [];
     arrayPouleName.forEach((poule, key) => {
-
         const json = {
-            pouleId: poule.id, teamId: teamId(arrayTeamKey[key], teams)
+            pouleId: poule.id_type, teamId: teamId(arrayTeamKey[key], teams)
         }
         result.push(json);
-
     });
-
     return result;
 }
 
@@ -68,7 +65,6 @@ export async function generatRandomPoule() {
 
     const splitArray = spintArrayIntoChunks(keyArrayTeam, numberTeamPoule);
     const result = generateJsonPoule(arrayPouleName, splitArray, teamArray)
-    console.log(result);
     return result;
 }
 
@@ -76,7 +72,6 @@ function splitPoule(params) {
     for (let poule in params) {
         params[poule].teamId.forEach(id_team => {
             const id_poule = params[poule].pouleId
-
             createPoule({ id_poule, id_team })
         })
     }
@@ -91,8 +86,13 @@ export async function addPoule(request, response, url) {
         // splitPoule(generatePoule)
         // return generatePoule
     }
-    return;
+
+    const generatePoule = await generatRandomPoule();
+
+    splitPoule(generatePoule)
+    return "ok";
 }
+
 
 function splitTeam(teams, typePoule) {
     const teamInPoule = []

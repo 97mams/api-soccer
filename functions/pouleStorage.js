@@ -30,6 +30,5 @@ export async function createPoule(params) {
     const sql = `INSERT INTO poule (id_type, id_team,created_at) VALUES (?,?,?)`
 
     const row = await db.query(sql, [params.id_poule, params.id_team, created_at])
-    console.log(row);
 
 }

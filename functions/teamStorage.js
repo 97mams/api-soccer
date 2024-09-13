@@ -45,7 +45,7 @@ export async function updateTeam(params, id) {
         point: params.point,
         match: params.match,
     }, {
-        id: id
+        id_team: id
     }]);
 
     return row.changedRows;

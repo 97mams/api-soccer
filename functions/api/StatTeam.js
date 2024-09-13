@@ -59,7 +59,7 @@ function totalMatch(wine, lose, equal) {
  */
 export async function updateStat(param, id) {
     const teams = allTeam();
-    const team = (await teams).find(team => team.id === parseInt(id))
+    const team = (await teams).find(team => team.id_team === parseInt(id))
 
     const wine = wineMatch(team.wine, param.wine)
     const equal = equalMatch(team.equal, param.equal)

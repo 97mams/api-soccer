@@ -1,7 +1,7 @@
 import { createServer } from "node:http";
 import { getTeam, getTeams, addTeam, modifTeam } from "./functions/api/Team.js";
 import { getPoule } from "./functions/pouleStorage.js";
-import { allPoule, generatRandomPoule } from "./functions/api/Poule.js";
+import { addPoule, allPoule } from "./functions/api/Poule.js";
 
 const port = 3000;
 const host = "127.0.0.1";
@@ -33,7 +33,7 @@ const callback = async (request, response) => {
                 results = await getPoule(request, response, url);
                 break;
             case "POST:/poules":
-                results = await generatRandomPoule(request, response, url);
+                results = await addPoule(request, response, url);
                 break;
             default:
                 break;

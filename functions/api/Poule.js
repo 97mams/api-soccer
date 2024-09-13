@@ -1,4 +1,4 @@
-import { json } from "node:stream/consumers"
+import { json } from "node:stream/consumers";
 import { createPoule, getPoule, getPouleTypes } from "../pouleStorage.js";
 import { allTeam } from "../teamStorage.js";
 import { countTeam } from "./Team.js";
@@ -60,6 +60,18 @@ function generateJsonPoule(arrayPouleName, arrayTeamKey, teams) {
     return result;
 }
 
+export async function generatRandomPoule() {
+    const arrayPouleName = await pouleName();
+    const numberTeamPoule = arrayPouleName.length - 1
+    let teamArray = await allTeam();
+    let keyArrayTeam = await randomKeyArrayTeam();
+
+    const splitArray = spintArrayIntoChunks(keyArrayTeam, numberTeamPoule);
+    const result = generateJsonPoule(arrayPouleName, splitArray, teamArray)
+    console.log(result);
+    return result;
+}
+
 function splitPoule(params) {
     for (let poule in params) {
         params[poule].teamId.forEach(id_team => {
@@ -70,10 +82,16 @@ function splitPoule(params) {
     }
 }
 
-export async function addPoule() {
-    const generatePoule = await generatRandomPoule();
-    splitPoule(generatePoule)
-    return generatePoule
+export async function addPoule(request, response, url) {
+    const data = await json(request)
+    if (data.bool) {
+        const generatePoule = await generatRandomPoule();
+        // console.log(generatePoule);
+
+        // splitPoule(generatePoule)
+        // return generatePoule
+    }
+    return;
 }
 
 function splitTeam(teams, typePoule) {
@@ -131,18 +149,4 @@ async function pouleFilterByName() {
 export async function allPoule() {
     const poules = await pouleFilterByName()
     return poules;
-}
-
-export async function generatRandomPoule(request, response, url) {
-    const valueRandom = await json(request);
-    const arrayPouleName = await pouleName();
-    const numberTeamPoule = arrayPouleName.length - 1
-    let teamArray = await allTeam();
-    let keyArrayTeam = await randomKeyArrayTeam();
-    const splitArray = spintArrayIntoChunks(keyArrayTeam, numberTeamPoule);
-    if (valueRandom.bool) {
-        generateJsonPoule(arrayPouleName, splitArray, teamArray)
-        return await getPoule();
-    }
-    return;
 }

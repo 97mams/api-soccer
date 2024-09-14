@@ -28,9 +28,10 @@ export async function createTeam({ name, created_at = new Date() }) {
 
 /**
  * @param {string} name
- * @param {number} number
+ * @param {number} win
  * @param {number} lose
  * @param {number} point
+ * @param {number} draw
  * @return {string}
  */
 export async function updateTeam(params, id) {
@@ -41,7 +42,7 @@ export async function updateTeam(params, id) {
     const [row] = await db.query(sql, [{
         wine: params.wine,
         lose: params.lose,
-        equal: params.equal,
+        draws: params.draws,
         point: params.point,
         match: params.match,
     }, {

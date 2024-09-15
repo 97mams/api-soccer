@@ -40,8 +40,8 @@ export async function updateTeam(params, id) {
         SET ?
         WHERE ?`
     const [row] = await db.query(sql, [{
-        wine: params.wine,
-        lose: params.lose,
+        wines: params.win,
+        losses: params.lose,
         draws: params.draws,
         point: params.point,
         match: params.match,

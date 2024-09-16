@@ -36,6 +36,7 @@ const callback = async (request, response) => {
                 results = await addPoule(request, response, url);
                 break;
             default:
+                res.writeHead(400)
                 break;
         }
         if (results) {

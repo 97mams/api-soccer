@@ -2,23 +2,23 @@ import { allTeam } from "../teamStorage.js"
 
 /**
  * calculer la somme du points ganger par chaque equipe
- * @param {number} wine
+ * @param {number} win
  * @param {number} draw
  * @return {number}point
  */
-function pointTeam(wine, draw) {
-    const point = (wine * 3) + draw
+function pointTeam(win, draw) {
+    const point = (win * 3) + draw
     return point
 }
 
 /**
  * calculer la nombre du victoire d'un équipe
- * @param {number} getwine
- * @param {number} wine
+ * @param {number} getwin
+ * @param {number} win
  * @return {number}
  */
-function wineMatch(getWine, wine) {
-    return wine + getWine
+function wineMatch(getWin, win) {
+    return win + getWin
 }
 
 /**
@@ -43,13 +43,13 @@ function totalDeaws(getdraw, draw) {
 
 /**
  * calculer le total du match
- * @param {number} wine
+ * @param {number} win
  * @param {number} lose
  * @param {number} draw
  * @return {number} match
  */
-function totalMatch(wine, lose, draw) {
-    return draw + lose + wine
+function totalMatch(win, lose, draw) {
+    return draw + lose + win
 }
 
 /**
@@ -61,16 +61,17 @@ export async function updateStat(param, id) {
     const teams = allTeam();
     const team = (await teams).find(team => team.id_team === parseInt(id))
 
-    const wine = wineMatch(team.wine, param.wine)
-    const draw = totalDeaws(team.draw, param.draw)
-    const lose = loseMatch(team.lose, param.lose)
+    const win = wineMatch(team.wins, param.win)
+    const draw = totalDeaws(team.draws, param.draw)
+    const lose = loseMatch(team.losses, param.lose)
+
     const promise = new Promise(resolve => {
         const resultStat = {
-            wine: wine,
+            win: win,
             lose: lose,
             draws: draw,
-            point: pointTeam(wine, draw),
-            match: totalMatch(wine, lose, draw)
+            point: pointTeam(win, draw),
+            match: totalMatch(win, lose, draw)
         }
         resolve(resultStat)
 

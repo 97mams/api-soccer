@@ -98,15 +98,16 @@ function splitTeam(teams, typePoule) {
     const teamInPoule = []
 
     for (let team of teams) {
+        console.log(team);
 
         if (team.name_type === typePoule) {
             const jsonTeam = {
                 pouleId: team.id_poule,
                 teamId: team.id_team,
                 name: team.name,
-                wine: team.wine,
-                lose: team.lose,
-                equal: team.equal,
+                win: team.wins,
+                lose: team.losses,
+                draws: team.draws,
                 point: team.point,
             }
             teamInPoule.push(jsonTeam)

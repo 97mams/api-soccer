@@ -35,6 +35,9 @@ const callback = async (request, response) => {
             case "POST:/poules":
                 results = await addPoule(request, response, url);
                 break;
+            case "OPTIONS:/poules":
+                res.setHeader('Access-Control-Allow-Headers', 'Accept, Content-Type');
+                break;
             default:
                 res.writeHead(400)
                 break;

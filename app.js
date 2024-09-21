@@ -1,6 +1,6 @@
 import { createServer } from "node:http";
 import { getTeam, getTeams, addTeam, modifTeam } from "./functions/api/Team.js";
-import { addGroup, allGroup, getGroupByType } from "./functions/api/group.js";
+import { addGroup, allGroup, getGroupByType } from "./functions/api/Group.js";
 
 const port = 3000;
 const host = "127.0.0.1";
@@ -37,10 +37,10 @@ const callback = async (request, response) => {
                 results = await addGroup(request, response, url);
                 break;
             case "OPTIONS:/groups":
-                res.setHeader('Access-Control-Allow-Headers', 'Accept, Content-Type');
+                response.setHeader('Access-Control-Allow-Headers', 'Accept, Content-Type');
                 break;
             default:
-                res.writeHead(400)
+                response.writeHead(400)
                 break;
         }
         if (results) {

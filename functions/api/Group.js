@@ -1,5 +1,5 @@
 import { json } from "node:stream/consumers";
-import { creategroup, getGroup, getGroupTypes } from "../groupStorage.js";
+import { createGroup, getGroup, getGroupTypes } from "../groupStorage.js";
 import { allTeam } from "../teamStorage.js";
 import { countTeam } from "./Team.js";
 
@@ -70,12 +70,12 @@ function splitgroup(params) {
     for (let group in params) {
         params[group].teamId.forEach(id_team => {
             const id_group = params[group].groupId
-            creategroup({ id_group, id_team })
+            createGroup({ id_group, id_team })
         })
     }
 }
 
-export async function addgroup(request, response, url) {
+export async function addGroup(request, response, url) {
     const data = await json(request)
     if (data.bool) {
         const generategroup = await generatRandomGroup();
@@ -145,7 +145,7 @@ export async function getGroupByType(request, response, url) {
     return findGroup
 }
 
-export async function allgroup() {
+export async function allGroup() {
     const groups = await groupFilterByName()
     return groups;
 }

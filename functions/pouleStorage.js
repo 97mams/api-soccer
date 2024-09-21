@@ -1,34 +1,33 @@
 import { db } from "./connectDb.js";
 
 /**
- * get all poule
- * @return {Promise<Poule[]>}
+ * get all group
+ * @return {Promise<group[]>}
  */
-export async function getPoule() {
-    const asql = "SELECT * FROM poule JOIN poule_types JOIN teams on poule_types.id_type = poule.id_type AND teams.id_team = poule.id_team ";
-    const sql = "SELECT * FROM poule";
+export async function getGroup() {
+    const asql = "SELECT * FROM group JOIN group_types JOIN teams on group_types.id_type = group.id_type AND teams.id_team = group.id_team ";
     const [row] = await db.query(asql);
     return row;
 }
 
 /**
- * @return {Promise<PouleTypes[]>}
+ * @return {Promise<groupTypes[]>}
  */
-export async function getPouleTypes() {
-    const sgl = "SELECT * FROM poule_types";
+export async function getGroupTypes() {
+    const sgl = "SELECT * FROM group_types";
     const [row] = await db.query(sgl);
     return row
 }
 
 /**
- * create a poule
+ * create a group
  * @param {number | string} params 
- * @return {Promise<Poule[]>}
+ * @return {Promise<group[]>}
  */
-export async function createPoule(params) {
+export async function createGroup(params) {
     const created_at = new Date()
-    const sql = `INSERT INTO poule (id_type, id_team,created_at) VALUES (?,?,?)`
+    const sql = `INSERT INTO group (id_type, id_team,created_at) VALUES (?,?,?)`
 
-    const row = await db.query(sql, [params.id_poule, params.id_team, created_at])
+    const row = await db.query(sql, [params.id_group, params.id_team, created_at])
 
 }

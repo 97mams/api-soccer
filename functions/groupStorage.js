@@ -14,7 +14,7 @@ export async function getGroup() {
  * @return {Promise<groupTypes[]>}
  */
 export async function getGroupTypes() {
-    const sgl = "SELECT * FROM group_types";
+    const sgl = "SELECT * FROM soccer.group_types";
     const [row] = await db.query(sgl);
     return row
 }
@@ -26,7 +26,7 @@ export async function getGroupTypes() {
  */
 export async function createGroup(params) {
     const created_at = new Date()
-    const sql = `INSERT INTO group (id_type, id_team,created_at) VALUES (?,?,?)`
+    const sql = `INSERT INTO soccer.group (id_type, id_team,created_at) VALUES (?,?,?)`
 
     const row = await db.query(sql, [params.id_group, params.id_team, created_at])
 

@@ -5,8 +5,8 @@ import { db } from "./connectDb.js";
  * @return {Promise<group[]>}
  */
 export async function getGroup() {
-    const asql = "SELECT * FROM group JOIN group_types JOIN teams on group_types.id_type = group.id_type AND teams.id_team = group.id_team ";
-    const [row] = await db.query(asql);
+    const sql = "SELECT * FROM soccer.group JOIN group_types JOIN teams on group_types.id_type = group.id_type AND teams.id_team = group.id_team ";
+    const [row] = await db.query(sql);
     return row;
 }
 

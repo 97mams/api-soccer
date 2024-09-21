@@ -1,6 +1,6 @@
 import { createServer } from "node:http";
 import { getTeam, getTeams, addTeam, modifTeam } from "./functions/api/Team.js";
-import { addPoule, allPoule, getPouleByType } from "./functions/api/Poule.js";
+import { addGroup, allGroup, getGroupByType } from "./functions/api/group.js";
 
 const port = 3000;
 const host = "127.0.0.1";
@@ -27,16 +27,16 @@ const callback = async (request, response) => {
             case "PUT:/team":
                 results = await modifTeam(request, response, url);
                 break;
-            case "GET:/poules":
-                results = await allPoule();
+            case "GET:/groups":
+                results = await allGroup();
                 break;
-            case "GET:/poule":
-                results = await getPouleByType(request, response, url);
+            case "GET:/group":
+                results = await getGroupByType(request, response, url);
                 break;
-            case "POST:/poules":
-                results = await addPoule(request, response, url);
+            case "POST:/groups":
+                results = await addGroup(request, response, url);
                 break;
-            case "OPTIONS:/poules":
+            case "OPTIONS:/groups":
                 res.setHeader('Access-Control-Allow-Headers', 'Accept, Content-Type');
                 break;
             default:

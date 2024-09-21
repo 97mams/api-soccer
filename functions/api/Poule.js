@@ -1,10 +1,10 @@
 import { json } from "node:stream/consumers";
-import { createPoule, getPoule, getPouleTypes } from "../pouleStorage.js";
+import { creategroup, getGroup, getGroupTypes } from "../groupStorage.js";
 import { allTeam } from "../teamStorage.js";
 import { countTeam } from "./Team.js";
 
-async function pouleName() {
-    return await getPouleTypes();
+async function groupName() {
+    return await getGroupTypes();
 }
 
 async function randomKeyArrayTeam() {
@@ -21,9 +21,7 @@ async function randomKeyArrayTeam() {
         }
     }
     return team;
-
 }
-
 
 function spintArrayIntoChunks(array, chunkSize) {
     const result = [];
@@ -46,63 +44,61 @@ function teamId(keys, teams) {
 }
 
 
-function generateJsonPoule(arrayPouleName, arrayTeamKey, teams) {
+function generateJsongroup(arrayGroupName, arrayTeamKey, teams) {
     const result = [];
-    arrayPouleName.forEach((poule, key) => {
+    arrayGroupName.forEach((group, key) => {
         const json = {
-            pouleId: poule.id_type, teamId: teamId(arrayTeamKey[key], teams)
+            groupId: group.id_type, teamId: teamId(arrayTeamKey[key], teams)
         }
         result.push(json);
     });
     return result;
 }
 
-export async function generatRandomPoule() {
-    const arrayPouleName = await pouleName();
-    const numberTeamPoule = arrayPouleName.length - 1
+export async function generatRandomGroup() {
+    const arrayGroupName = await groupName();
+    const numberTeamGroup = arrayGroupName.length - 1
     let teamArray = await allTeam();
     let keyArrayTeam = await randomKeyArrayTeam();
 
-    const splitArray = spintArrayIntoChunks(keyArrayTeam, numberTeamPoule);
-    const result = generateJsonPoule(arrayPouleName, splitArray, teamArray)
+    const splitArray = spintArrayIntoChunks(keyArrayTeam, numberTeamGroup);
+    const result = generateJsongroup(arrayGroupName, splitArray, teamArray)
     return result;
 }
 
-function splitPoule(params) {
-    for (let poule in params) {
-        params[poule].teamId.forEach(id_team => {
-            const id_poule = params[poule].pouleId
-            createPoule({ id_poule, id_team })
+function splitgroup(params) {
+    for (let group in params) {
+        params[group].teamId.forEach(id_team => {
+            const id_group = params[group].groupId
+            creategroup({ id_group, id_team })
         })
     }
 }
 
-export async function addPoule(request, response, url) {
+export async function addgroup(request, response, url) {
     const data = await json(request)
     if (data.bool) {
-        const generatePoule = await generatRandomPoule();
-        // console.log(generatePoule);
+        const generategroup = await generatRandomGroup();
+        // console.log(generategroup);
 
-        // splitPoule(generatePoule)
-        // return generatePoule
+        // splitgroup(generategroup)
+        // return generategroup
     }
 
-    const generatePoule = await generatRandomPoule();
+    const generategroup = await generatRandomGroup();
 
-    splitPoule(generatePoule)
+    splitgroup(generategroup)
     return "ok";
 }
 
 
-function splitTeam(teams, typePoule) {
-    const teamInPoule = []
+function splitTeam(teams, typeGroup) {
+    const teamIngroup = []
 
     for (let team of teams) {
-        console.log(team);
-
-        if (team.name_type === typePoule) {
+        if (team.name_type === typeGroup) {
             const jsonTeam = {
-                pouleId: team.id_poule,
+                groupId: team.id_group,
                 teamId: team.id_team,
                 name: team.name,
                 win: team.wins,
@@ -110,44 +106,46 @@ function splitTeam(teams, typePoule) {
                 draws: team.draws,
                 point: team.point,
             }
-            teamInPoule.push(jsonTeam)
+            teamIngroup.push(jsonTeam)
         }
     }
-    return teamInPoule
-
+    return teamIngroup
 }
 
-function jsonResponsPoule(poules, name) {
-    const jsonTeam = splitTeam(poules, name)
+function jsonResponsgroup(groups, name) {
+    const jsonTeam = splitTeam(groups, name)
 
     const json = {
-        poule: name,
+        group: name,
         teams: jsonTeam
     }
 
     return json;
-
-
-
-
 }
 
-async function pouleFilterByName() {
-    const poule = await getPoule()
-    const name = await pouleName()
+async function groupFilterByName() {
+    const group = await getGroup()
+    const name = await groupName()
 
     const result = []
-    name.forEach(pouleName => {
-        const type = pouleName.name_type
-        const pouleByName = poule.filter(poule => type === poule.name_type)
+    name.forEach(groupName => {
+        const type = groupName.name_type
+        const groupByName = group.filter(group => type === group.name_type)
 
-        result.push(jsonResponsPoule(pouleByName, type))
+        result.push(jsonResponsgroup(groupByName, type))
     })
 
     return result
 }
 
-export async function allPoule() {
-    const poules = await pouleFilterByName()
-    return poules;
+export async function getGroupByType(request, response, url) {
+    const typeGroup = url.searchParams.get('type');
+    const groups = await groupFilterByName();
+    const findGroup = groups.find(group => group.group === typeGroup);
+    return findGroup
+}
+
+export async function allgroup() {
+    const groups = await groupFilterByName()
+    return groups;
 }

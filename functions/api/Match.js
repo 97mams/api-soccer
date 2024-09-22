@@ -2,40 +2,6 @@ import { allGroup } from "./Group.js"
 
 const groups = await allGroup()
 
-/**
- * count number teams in the group
- * @param {Array} teams 
- * @returns number
- */
-const countTeamInGroup = (teams) => {
-    // const totalTeamINGroup = teams.lenght
-    // return totalTeamINGroup
-    if (teams) {
-        return teams.length;
-    }
-    return
-
-}
-
-
-/**
- * total match for a team in the group
- * @param {number} teams
- * @returns number
- */
-const countMatchTeam = (teams) => {
-    const matchTotalTeam = teams - 1
-    return matchTotalTeam
-}
-
-/**
- * total match for a group
- * @returns number
- */
-const countMatchGroup = (teams) => {
-    const numberMacht = teams * 2
-    return numberMacht
-}
 
 const buildMacht = (teams) => {
     let result = [];

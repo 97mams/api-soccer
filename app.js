@@ -1,7 +1,7 @@
 import { createServer } from "node:http";
 import { getTeam, getTeams, addTeam, modifTeam } from "./functions/api/Team.js";
 import { addGroup, allGroup, getGroupByType } from "./functions/api/Group.js";
-import { callandrie, getMatch } from './functions/api/Match.js'
+import { getMatch } from './functions/api/Match.js'
 
 const port = 3000;
 const host = "127.0.0.1";
@@ -39,9 +39,6 @@ const callback = async (request, response) => {
                 break;
             case "GET:/match":
                 results = getMatch();
-                break;
-            case "GET:/calandar":
-                results = callandrie();
                 break;
             case "OPTIONS:/groups":
                 response.setHeader('Access-Control-Allow-Headers', 'Accept, Content-Type');

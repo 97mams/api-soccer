@@ -20,24 +20,3 @@ export const getMatch = () => {
     }
     return result
 }
-
-export function callandrie() {
-    const matchs = getMatch()
-    const result = [];
-    for (let key in matchs) {
-        const json = {
-            "day": key + 1,
-            "matchs": {
-                "groupe": matchs[key].group,
-                "teams": matchs[key].matchs[key]
-            }
-        }
-        result.push(json)
-
-    }
-    return result
-}
-
-
-
-

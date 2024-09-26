@@ -1,5 +1,5 @@
 {
-  "name": "auth",
+  "name": "api-soccer",
   "version": "1.0.0",
   "description": "api for my project soccer",
   "type": "module",

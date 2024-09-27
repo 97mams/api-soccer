@@ -30,7 +30,7 @@ function spintArrayIntoChunks(array, chunkSize) {
         const chunk = array.slice(index, index + chunkSize)
         result.push(chunk)
     }
-
+    console.log('zao', result)
     return result
 }
 
@@ -57,7 +57,9 @@ function generateJsongroup(arrayGroupName, arrayTeamKey, teams) {
 
 export async function generatRandomGroup() {
     const arrayGroupName = await groupName();
-    const numberTeamGroup = arrayGroupName.length - 1
+    const numberTeamGroup = await countTeam() / arrayGroupName.length
+    console.log(numberTeamGroup);
+
     let teamArray = await allTeam();
     let keyArrayTeam = await randomKeyArrayTeam();
 
@@ -79,16 +81,10 @@ export async function addGroup(request, response, url) {
     const data = await json(request)
     if (data.bool) {
         const generategroup = await generatRandomGroup();
-        // console.log(generategroup);
-
         // splitgroup(generategroup)
-        // return generategroup
+        return "mety"
     }
-
-    const generategroup = await generatRandomGroup();
-
-    splitgroup(generategroup)
-    return "ok";
+    return;
 }
 
 

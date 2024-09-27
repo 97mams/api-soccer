@@ -3,7 +3,7 @@ import { allGroup } from "./Group.js"
 const groups = await allGroup()
 
 
-const buildMacht = (teams) => {
+const buildMatch = (teams) => {
     let result = [];
     for (let team in teams) {
         const key = parseInt(team)
@@ -16,7 +16,7 @@ const buildMacht = (teams) => {
 export const getMatch = () => {
     const result = []
     for (let group of groups) {
-        result.push({ group: group.group, matchs: buildMacht(group.teams) })
+        result.push({ group: group.group, matchs: buildMatch(group.teams) })
     }
     return result
 }

@@ -81,7 +81,7 @@ export async function addGroup(request, response, url) {
     const data = await json(request)
     if (data.bool) {
         const generategroup = await generatRandomGroup();
-        // splitgroup(generategroup)
+        splitgroup(generategroup)
         return "mety"
     }
     return;

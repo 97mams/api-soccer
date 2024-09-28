@@ -22,16 +22,38 @@ async function randomKeyArrayTeam() {
     }
     return team;
 }
+/**
+ * trouver les derniers valuers dans un tabelau de team
+ * @param {number[]} array 
+ * @param {number} chunkSize 
+ * @returns []
+ */
+const findLastValue = (array, chunkSize, groups) => {
+    const resteTeam = array.length - (chunkSize * chunkSize)
+    let result = []
+    for (let index = 0; index < resteTeam; index++) {
+        groups[index].push(array[array.length - resteTeam + index])
+    }
+    console.log(groups);
+
+    return result;
+}
 
 function spintArrayIntoChunks(array, chunkSize) {
+    console.log('tableau', array);
+
     const result = [];
+    // if (parseFloat(chunkSize)) {
+    //     chunkSize = chunkSize + 1
+    // }
 
     for (let index = 0; index < array.length; index += chunkSize) {
         const chunk = array.slice(index, index + chunkSize)
         result.push(chunk)
     }
-    console.log('zao', result)
+    console.log(findLastValue(array, chunkSize, result))
     return result
+
 }
 
 function teamId(keys, teams) {
@@ -57,8 +79,7 @@ function generateJsongroup(arrayGroupName, arrayTeamKey, teams) {
 
 export async function generatRandomGroup() {
     const arrayGroupName = await groupName();
-    const numberTeamGroup = await countTeam() / arrayGroupName.length
-    console.log(numberTeamGroup);
+    const numberTeamGroup = parseInt(await countTeam() / arrayGroupName.length)
 
     let teamArray = await allTeam();
     let keyArrayTeam = await randomKeyArrayTeam();
@@ -81,8 +102,8 @@ export async function addGroup(request, response, url) {
     const data = await json(request)
     if (data.bool) {
         const generategroup = await generatRandomGroup();
-        splitgroup(generategroup)
-        return "mety"
+        // splitgroup(generategroup)
+        return generategroup
     }
     return;
 }

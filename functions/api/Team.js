@@ -3,9 +3,7 @@ import { json } from "node:stream/consumers";
 import { updateStat } from "./StatTeam.js";
 
 export async function getTeams(resquest, respose) {
-    const team = await allTeam()
-    team.push(await countTeam())
-    return team
+    return { total: await countTeam(), teams: await allTeam() }
 }
 
 export async function getTeam(resquest, respose, url) {

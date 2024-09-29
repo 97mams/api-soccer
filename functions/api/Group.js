@@ -22,36 +22,47 @@ async function randomKeyArrayTeam() {
     }
     return team;
 }
+const isFloat = (number) => {
+    let result = false
+    if (parseFloat(number)) {
+        result = true
+    }
+    return result
+}
 /**
  * trouver les derniers valuers dans un tabelau de team
  * @param {number[]} array 
  * @param {number} chunkSize 
  * @returns []
  */
-const findLastValue = (array, chunkSize, groups) => {
+const findLastValue = (array, chunkSize) => {
     const resteTeam = array.length - (chunkSize * chunkSize)
     let result = []
-    for (let index = 0; index < resteTeam; index++) {
-        groups[index].push(array[array.length - resteTeam + index])
+    for (let index = 0; index < array.length - resteTeam; index += chunkSize) {
+        const chunk = array.slice(index, index + chunkSize)
+        result.push(chunk)
     }
-    console.log(groups);
+    for (let index = 0; index < resteTeam; index++) {
+        result[index].push(array[array.length - resteTeam + index])
+    }
+    console.log(result);
 
     return result;
 }
 
 function spintArrayIntoChunks(array, chunkSize) {
-    console.log('tableau', array);
 
-    const result = [];
-    // if (parseFloat(chunkSize)) {
-    //     chunkSize = chunkSize + 1
-    // }
+    let result = [];
 
-    for (let index = 0; index < array.length; index += chunkSize) {
-        const chunk = array.slice(index, index + chunkSize)
-        result.push(chunk)
+    if (isFloat(array.length)) {
+        result = findLastValue(array, chunkSize)
+    } else {
+        for (let index = 0; index < array.length; index += chunkSize) {
+            const chunk = array.slice(index, index + chunkSize)
+            result.push(chunk)
+        }
     }
-    console.log(findLastValue(array, chunkSize, result))
+
     return result
 
 }
@@ -102,7 +113,7 @@ export async function addGroup(request, response, url) {
     const data = await json(request)
     if (data.bool) {
         const generategroup = await generatRandomGroup();
-        // splitgroup(generategroup)
+        splitgroup(generategroup)
         return generategroup
     }
     return;

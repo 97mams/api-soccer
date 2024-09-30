@@ -10,7 +10,7 @@ const buildMatch = (teams) => {
         const exitLoop = teams.length
         for (let key = Indexkey; key < exitLoop; key++) {
             if (exitLoop !== key + 1) {
-                result.push({ team1: teams[Indexkey].teamId, team2: teams[key + 1].teamId })
+                result.push({ team1: teams[Indexkey].name, team2: teams[key + 1].name })
             }
         }
     }
@@ -19,9 +19,8 @@ const buildMatch = (teams) => {
 
 export const getMatch = () => {
     const result = []
-    console.log(groups[3].teams)
-    result.push({ group: groups.group, matchs: buildMatch(groups[0].teams,) })
     for (let group of groups) {
+        result.push({ group: group.group, matchs: buildMatch(group.teams) })
     }
     return result
 }

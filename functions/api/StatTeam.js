@@ -12,7 +12,7 @@ function pointTeam(win, draw) {
 }
 
 /**
- * calculer la nombre du victoire d'un équipe
+ * calculer les nombres du victoire d'un équipe
  * @param {number} getwin
  * @param {number} win
  * @return {number}
@@ -22,7 +22,7 @@ function wineMatch(getWin, win) {
 }
 
 /**
- * calculer la nombre de defaite d'un équipe
+ * calculer les nombres de defaite d'un équipe
  * @param {number} getLose
  * @param {number} lose
  * @returns {number}
@@ -32,7 +32,7 @@ function loseMatch(getLose, lose) {
 }
 
 /**
- * calculer la nombre du match null d'un équipe
+ * calculer les nombres du match null d'un équipe
  * @param {number} getdraw
  * @param {number} draw
  * @return {number} draw
@@ -42,7 +42,7 @@ function totalDeaws(getdraw, draw) {
 }
 
 /**
- * calculer le total du match
+ * calculer la total du match
  * @param {number} win
  * @param {number} lose
  * @param {number} draw

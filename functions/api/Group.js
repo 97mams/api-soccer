@@ -22,6 +22,7 @@ async function randomKeyArrayTeam() {
     }
     return team;
 }
+
 const isFloat = (number) => {
     let result = false
     if (parseFloat(number)) {

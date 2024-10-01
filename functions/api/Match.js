@@ -1,3 +1,4 @@
+import { getTeamById } from "../teamStorage.js";
 import { allGroup } from "./Group.js"
 import { json } from "node:stream/consumers"
 
@@ -27,6 +28,7 @@ export const getMatch = () => {
 
 export const updateStatMatch = async (request, response, url) => {
     const matchId = url.searchParas.get("id");
+    const team = await getTeamById()
     const data = await json("score")
     console.log(data)
     console.log(data)

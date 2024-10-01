@@ -1,5 +1,5 @@
 import { allGroup } from "./Group.js"
-import { json } from "node:stream/consumerss"
+import { json } from "node:stream/consumers"
 
 const groups = await allGroup()
 
@@ -28,5 +28,6 @@ export const getMatch = () => {
 export const updateStatMatch = async (request, response, url) => {
     const matchId = url.searchParas.get("id");
     const data = await json("score")
+    console.log(data)
     console.log(data)
 }

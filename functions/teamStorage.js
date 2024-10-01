@@ -1,7 +1,7 @@
 import { db } from "./connectDb.js"
 
 /**
- * @return {Promise<Team[]>}
+ * @return {Promise<Teams[]>}
  */
 export async function allTeam() {
     const sql = "SELECT * from teams";
@@ -9,6 +9,14 @@ export async function allTeam() {
     return row[0];
 }
 
+/**
+ * @return {Promise<Team[]>}
+ */
+export async function getTeamById(id) {
+    const sql = "SELECT * from teams where id_team = ?";
+    const row = await db.query(sql, [id]);
+    return row[0];
+}
 
 /**
  * @param {string} name

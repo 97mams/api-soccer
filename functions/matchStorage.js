@@ -5,7 +5,7 @@ import { db } from "./connectDb.js";
  */
 export async function allMatch() {
     const sql = "SELECT * FROM matchs"
-    const [row] = db.query(sql)
+    const [row] = await db.query(sql)
     return row[0];
 }
 
@@ -27,6 +27,6 @@ export async function updateMatchs(data) {
         Set ?
         Where ?
     `
-    const [row] = db.query(sql, [data])
+    const [row] = await db.query(sql, [data])
     return row[0];
 }

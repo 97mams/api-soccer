@@ -1,27 +1,28 @@
 import { getTeamById } from "../teamStorage.js";
+import { allMatch, creatMatchs } from "../matchStorage.js"
 import { allGroup } from "./Group.js"
 import { json } from "node:stream/consumers"
 
 const groups = await allGroup()
 
-const buildMatch = (teams) => {
-    let result = [];
+const buildMatch = (teams, groupName) => {
     for (let team in teams) {
-        const Indexkey = parseInt(team)
+        const indexKey = parseInt(team)
         const exitLoop = teams.length
-        for (let key = Indexkey; key < exitLoop; key++) {
+        for (let key = indexKey; key < exitLoop; key++) {
             if (exitLoop !== key + 1) {
-                result.push({ team1: teams[Indexkey].name, team2: teams[key + 1].name })
+                const data = { team1: teams[indexKey].name, team2: teams[key + 1].name, groupName: groupName }
+                creatMatchs(data)
+
             }
         }
     }
-    return result
 }
 
 export const getMatch = () => {
     const result = []
     for (let group of groups) {
-        result.push({ group: group.group, matchs: buildMatch(group.teams) })
+        buildMatch(group.teams, group.group)
     }
     return result
 }

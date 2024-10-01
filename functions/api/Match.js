@@ -1,7 +1,7 @@
 import { allGroup } from "./Group.js"
+import { json } from "node:stream/consumerss"
 
 const groups = await allGroup()
-
 
 const buildMatch = (teams) => {
     let result = [];
@@ -23,4 +23,10 @@ export const getMatch = () => {
         result.push({ group: group.group, matchs: buildMatch(group.teams) })
     }
     return result
+}
+
+export const updateStatMatch = async (request, response, url) => {
+    const matchId = url.searchParas.get("id");
+    const data = await json("score")
+    console.log(data)
 }

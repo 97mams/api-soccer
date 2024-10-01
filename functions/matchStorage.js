@@ -14,9 +14,8 @@ export async function allMatch() {
  * @returns {Void}
  */
 export async function creatMatchs(data) {
-    const sql = "INSERT INTO matchs (team1,team2,score1,score2, groupName) VALUES(?,?,?,?,?)"
-    const [row] = db.query(sql, [data])
-    return row[0];
+    const sql = "INSERT INTO matchs (team1,team2, groupName) VALUES(?,?,?)"
+    await db.query(sql, [data.team1, data.team2, data.groupName])
 }
 
 /**

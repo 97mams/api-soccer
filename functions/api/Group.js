@@ -2,6 +2,7 @@ import { json } from "node:stream/consumers";
 import { createGroup, getGroup, getGroupTypes } from "../groupStorage.js";
 import { allTeam } from "../teamStorage.js";
 import { countTeam } from "./Team.js";
+import { addMatch } from "./Match.js";
 
 async function groupName() {
     return await getGroupTypes();

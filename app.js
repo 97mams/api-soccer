@@ -38,7 +38,7 @@ const callback = async (request, response) => {
                 results = await addGroup(request, response, url);
                 break;
             case "GET:/match":
-                results = getMatch();
+                results = await getMatch();
                 break;
             case "OPTIONS:/groups":
                 response.setHeader('Access-Control-Allow-Headers', 'Accept, Content-Type');

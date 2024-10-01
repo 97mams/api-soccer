@@ -13,18 +13,24 @@ const buildMatch = (teams, groupName) => {
             if (exitLoop !== key + 1) {
                 const data = { team1: teams[indexKey].name, team2: teams[key + 1].name, groupName: groupName }
                 creatMatchs(data)
-
             }
         }
     }
 }
 
-export const getMatch = () => {
-    const result = []
+export const addMatch = () => {
     for (let group of groups) {
         buildMatch(group.teams, group.group)
     }
-    return result
+}
+
+export const getMatch = async () => {
+    const matchs = await allMatch()
+    if (matchs.length === 0) {
+        addMatch()
+        return await getMatch()
+    }
+    return matchs
 }
 
 export const updateStatMatch = async (request, response, url) => {

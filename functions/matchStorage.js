@@ -6,7 +6,7 @@ import { db } from "./connectDb.js";
 export async function allMatch() {
     const sql = "SELECT * FROM matchs"
     const [row] = await db.query(sql)
-    return row[0];
+    return row;
 }
 
 /**
@@ -15,7 +15,7 @@ export async function allMatch() {
  */
 export async function creatMatchs(data) {
     const sql = "INSERT INTO matchs (team1,team2, groupName) VALUES(?,?,?)"
-    await db.query(sql, [data.team1, data.team2, data.groupName])
+    const [row] = await db.query(sql, [data.team1, data.team2, data.groupName])
 }
 
 /**

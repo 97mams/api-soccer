@@ -2,7 +2,6 @@ import { json } from "node:stream/consumers";
 import { createGroup, getGroup, getGroupTypes } from "../groupStorage.js";
 import { allTeam } from "../teamStorage.js";
 import { countTeam } from "./Team.js";
-import { addMatch } from "./Match.js";
 
 async function groupName() {
     return await getGroupTypes();
@@ -26,11 +25,12 @@ async function randomKeyArrayTeam() {
 
 const isFloat = (number) => {
     let result = false
-    if (parseFloat(number)) {
+    if (number % 4) {
         result = true
     }
     return result
 }
+
 /**
  * trouver les derniers valuers dans un tabelau de team
  * @param {number[]} array 
@@ -47,15 +47,12 @@ const findLastValue = (array, chunkSize) => {
     for (let index = 0; index < resteTeam; index++) {
         result[index].push(array[array.length - resteTeam + index])
     }
-    console.log(result);
 
     return result;
 }
 
 function spintArrayIntoChunks(array, chunkSize) {
-
     let result = [];
-
     if (isFloat(array.length)) {
         result = findLastValue(array, chunkSize)
     } else {
@@ -64,14 +61,12 @@ function spintArrayIntoChunks(array, chunkSize) {
             result.push(chunk)
         }
     }
-
     return result
 
 }
 
 function teamId(keys, teams) {
     const result = [];
-
     for (let index = 0; index < keys.length; index++) {
         result.push(teams[keys[index]].id_team);
     }
@@ -81,6 +76,8 @@ function teamId(keys, teams) {
 
 function generateJsongroup(arrayGroupName, arrayTeamKey, teams) {
     const result = [];
+    console.log(arrayTeamKey);
+
     arrayGroupName.forEach((group, key) => {
         const json = {
             groupId: group.id_type, teamId: teamId(arrayTeamKey[key], teams)
@@ -96,7 +93,6 @@ export async function generatRandomGroup() {
 
     let teamArray = await allTeam();
     let keyArrayTeam = await randomKeyArrayTeam();
-
     const splitArray = spintArrayIntoChunks(keyArrayTeam, numberTeamGroup);
     const result = generateJsongroup(arrayGroupName, splitArray, teamArray)
     return result;
@@ -144,19 +140,16 @@ function splitTeam(teams, typeGroup) {
 
 function jsonResponsgroup(groups, name) {
     const jsonTeam = splitTeam(groups, name)
-
     const json = {
         group: name,
         teams: jsonTeam
     }
-
     return json;
 }
 
 async function groupFilterByName() {
     const group = await getGroup()
     const name = await groupName()
-
     const result = []
     name.forEach(groupName => {
         const type = groupName.name_type
@@ -164,7 +157,6 @@ async function groupFilterByName() {
 
         result.push(jsonResponsgroup(groupByName, type))
     })
-
     return result
 }
 

@@ -18,20 +18,6 @@ const buildMatch = (teams, groupName) => {
     }
 }
 
-const addMatch = () => {
-    for (let group of groups) {
-        if (group.teams.length === 0) {
-            return
-        }
-        buildMatch(group.teams, group.group)
-    }
-}
-
-export const getMatchByGroup = async (request, response, url) => {
-    const groupName = url.searchParams.get("group")
-    return await getMatchByGroupName(groupName)
-}
-
 const jsonMatch = async () => {
     const matchwithScore = await allMatch()
     const matchs = await getMatchs()
@@ -53,6 +39,20 @@ const jsonMatch = async () => {
 
     }
     return result
+}
+
+const addMatch = () => {
+    for (let group of groups) {
+        if (group.teams.length === 0) {
+            return
+        }
+        buildMatch(group.teams, group.group)
+    }
+}
+
+export const getMatchByGroup = async (request, response, url) => {
+    const groupName = url.searchParams.get("group")
+    return await getMatchByGroupName(groupName)
 }
 
 export const getMatch = async () => {

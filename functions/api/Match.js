@@ -1,5 +1,5 @@
 import { getTeamById } from "../teamStorage.js";
-import { allMatch, creatMatchs, getMatchByGroupName } from "../matchStorage.js"
+import { getMatchs, allMatch, creatMatchs, getMatchByGroupName, getScore } from "../matchStorage.js"
 import { allGroup } from "./Group.js"
 import { json } from "node:stream/consumers"
 
@@ -18,8 +18,11 @@ const buildMatch = (teams, groupName) => {
     }
 }
 
-export const addMatch = () => {
+const addMatch = () => {
     for (let group of groups) {
+        if (group.teams.length === 0) {
+            return
+        }
         buildMatch(group.teams, group.group)
     }
 }
@@ -29,13 +32,40 @@ export const getMatchByGroup = async (request, response, url) => {
     return await getMatchByGroupName(groupName)
 }
 
-export const getMatch = async () => {
-    const matchs = await allMatch()
-    if (matchs.length === 0) {
-        addMatch()
-        return await getMatch()
+const jsonMatch = async () => {
+    const matchwithScore = await allMatch()
+    const matchs = await getMatchs()
+    let result = []
+    for (let match of matchwithScore) {
+        const score = await getScore(match.id_score)
+        const findMatch = matchs.filter(m => m.id_match === match.id_match)
+        const json = {
+            id: findMatch[0].id_match,
+            team1: findMatch[0].team1,
+            team2: findMatch[0].team2,
+            score: {
+                team1: score[0].team1,
+                team2: score[0].team2
+            },
+            group: findMatch[0].groupName
+        }
+        result.push(json);
+
     }
-    return matchs
+    return result
+}
+
+export const getMatch = async () => {
+    const matchs = await jsonMatch()
+    if (groups[0].teams.length === 0) {
+        return { status: "warning", message: "you must to add teams" }
+    } else {
+        if (matchs.length === 0) {
+            addMatch()
+            return await getMatch()
+        }
+        return matchs
+    }
 }
 
 export const updateStatMatch = async (request, response, url) => {

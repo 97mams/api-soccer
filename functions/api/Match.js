@@ -57,6 +57,8 @@ export const getMatchByGroup = async (request, response, url) => {
 
 export const getMatch = async () => {
     const matchs = await jsonMatch()
+    console.log(groups[0].teams.length === 0);
+
     if (groups[0].teams.length === 0) {
         return { status: "warning", message: "you must to add teams" }
     } else {

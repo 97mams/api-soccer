@@ -1,5 +1,5 @@
 import { getTeamById } from "../teamStorage.js";
-import { allMatch, creatMatchs } from "../matchStorage.js"
+import { allMatch, creatMatchs, getMatchByGroupName } from "../matchStorage.js"
 import { allGroup } from "./Group.js"
 import { json } from "node:stream/consumers"
 
@@ -22,6 +22,11 @@ export const addMatch = () => {
     for (let group of groups) {
         buildMatch(group.teams, group.group)
     }
+}
+
+export const getMatchByGroup = async (request, response, url) => {
+    const groupName = url.searchParams.get("group")
+    return await getMatchByGroupName(groupName)
 }
 
 export const getMatch = async () => {

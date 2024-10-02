@@ -10,6 +10,15 @@ export async function allMatch() {
 }
 
 /**
+ * @returns {Promise<Matchs[]>}
+ */
+export async function getMatchByGroupName(groupName) {
+    const sql = "SELECT * FROM matchs Where groupName = ?"
+    const [row] = await db.query(sql, [groupName])
+    return row;
+}
+
+/**
  * @param {object} data
  * @returns {Void}
  */

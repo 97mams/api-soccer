@@ -42,7 +42,7 @@ export async function createTeam({ name, created_at = new Date() }) {
  * @param {number} draw
  * @return {string}
  */
-export async function updateTeam(params, id) {
+export async function updateTeam(params, name) {
     const sql = `
         UPDATE teams
         SET ?
@@ -54,7 +54,7 @@ export async function updateTeam(params, id) {
         point: params.point,
         match: params.match,
     }, {
-        id_team: id
+        name: name
     }]);
 
     return row.changedRows;

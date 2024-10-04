@@ -18,7 +18,7 @@ export const teamWiner = (team1, team2) => {
  * @param {number} team2
  * @returns {string} nameTeam
  */
-export const isLosser = (team1, team2) => {
+export const teamLosser = (team1, team2) => {
     let losser = "team1"
     if (team1 < team2) {
         losser = "team2"

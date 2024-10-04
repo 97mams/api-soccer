@@ -59,3 +59,11 @@ export async function updateTeam(params, id) {
 
     return row.changedRows;
 }
+/**
+ * @param {number}id
+ * @returns {void}
+ */
+export async function deleteTeam(id) {
+    const sql = "DELET from teams WHERE id_team = ?"
+    await db.query(sql, [id])
+}

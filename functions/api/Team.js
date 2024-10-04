@@ -56,6 +56,5 @@ function jsonResponse(message, team) {
         message: message,
         team: team
     };
-
     return json;
 }

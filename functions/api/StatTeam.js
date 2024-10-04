@@ -57,10 +57,9 @@ function totalMatch(win, lose, draw) {
  * @param {number} id
  *@return { Promise<Stat[]>}
  */
-export async function updateStat(param, id) {
+export async function updateStat(param, name) {
     const teams = allTeam();
-    const team = (await teams).find(team => team.id_team === parseInt(id))
-
+    const team = (await teams).find(team => team.name === name)
     const win = wineMatch(team.wins, param.win)
     const draw = totalDeaws(team.draws, param.draw)
     const lose = loseMatch(team.losses, param.lose)

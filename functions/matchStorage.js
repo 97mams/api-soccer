@@ -59,3 +59,19 @@ export async function updateMatchs(data) {
     const [row] = await db.query(sql, [data])
     return row[0];
 }
+
+/**
+ * @param {number} id 
+ * @param {object} data 
+ * @returns {Void}
+ */
+export async function updateScore(id, data) {
+    const sql = `
+        UPDATE score
+        Set ?
+        Where id_match = ?
+    `
+    const [row] = await db.query(sql, [data, id])
+    return row[0];
+
+}

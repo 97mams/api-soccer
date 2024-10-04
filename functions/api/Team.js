@@ -35,12 +35,12 @@ export async function addTeam(resquest, respose) {
 }
 
 export async function modifTeam(resquest, respose, url) {
-    const id = url.searchParams.get('id');
+    const teamName = url.searchParams.get('name');
     const params = await json(resquest);
-    const stat = await updateStat(params, id);
+    const stat = await updateStat(params, teamName);
     const message = "Team success uptaded";
 
-    const result = await updateTeam(stat, id)
+    const result = await updateTeam(stat, teamName)
     if (!result) return
     Object.assign(stat, { id })
     return jsonResponse(message, stat)

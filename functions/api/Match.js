@@ -1,7 +1,9 @@
-import { getTeamById } from "../teamStorage.js";
-import { getMatchs, allMatch, creatMatchs, getMatchByGroupName, getScore } from "../matchStorage.js"
+import { getTeamById, updateTeam } from "../teamStorage.js";
+import { getMatchs, allMatch, creatMatchs, getMatchByGroupName, getScore, updateScore } from "../matchStorage.js"
 import { allGroup } from "./Group.js"
+import { teamWiner, teamLosser, isDraw } from "./checkResults.js";
 import { json } from "node:stream/consumers"
+import { updateStat } from "./StatTeam.js";
 
 const groups = await allGroup()
 
@@ -70,14 +72,50 @@ export const getMatch = async () => {
     }
 }
 
-const resultMatch = () => {
+/**
+ * update states for each teams
+ * @param {object} match 
+ * @param {object} score 
+ * @returns {stat[]}
+ */
+const resultMatch = (match, score) => {
+    let json
+    if (isDraw(score.team1, score.team2)) {
+        json = [{
+            team: match.team1,
+            data: { win: 0, lose: 0, draw: 1 }
+        }, {
+            team: match.team2,
+            data: { win: 0, lose: 0, draw: 1 }
+        }]
 
+    } else {
+        let teamWine = teamWiner(match, score)
+        const teamLose = teamLosser(match, score)
+        json = [{
+            team: teamWine,
+            data: { win: 1, lose: 0, draw: 0 }
+        }, {
+            team: teamLose,
+            data: { win: 0, lose: 1, draw: 0 }
+        }
+        ]
+    }
+    return json
 }
 
+
 export const updateStatMatch = async (request, response, url) => {
-    const matchId = url.searchParas.get("id");
-    const team = await getTeamById()
-    const data = await json("score")
-    console.log(data)
-    console.log(data)
+    const matchs = await getMatchs()
+    const matchId = parseInt(url.searchParams.get("id"))
+    const match = matchs.find(m => m.id_match === matchId)
+    const data = await json(request)
+    updateScore(matchId, data)
+    const results = resultMatch(match, data)
+    for (let result of results) {
+        const stat = await updateStat(result.data, result.team)
+        updateTeam(stat, result.team)
+    }
+
+
 }

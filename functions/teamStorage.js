@@ -57,7 +57,7 @@ export async function updateTeam(params, name) {
         name: name
     }]);
 
-    return row.changedRows;
+    return row;
 }
 /**
  * @param {number}id

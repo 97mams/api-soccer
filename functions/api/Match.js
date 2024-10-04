@@ -70,6 +70,10 @@ export const getMatch = async () => {
     }
 }
 
+const resultMatch = () => {
+
+}
+
 export const updateStatMatch = async (request, response, url) => {
     const matchId = url.searchParas.get("id");
     const team = await getTeamById()

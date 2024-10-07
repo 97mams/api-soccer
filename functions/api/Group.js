@@ -142,6 +142,7 @@ function jsonResponsgroup(groups, name) {
     const jsonTeam = splitTeam(groups, name)
     const json = {
         group: name,
+        total: jsonTeam.length,
         teams: jsonTeam
     }
     return json;

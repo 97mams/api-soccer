@@ -4,6 +4,7 @@ import { allGroup } from "./Group.js"
 import { teamWiner, teamLosser, isDraw } from "./checkResults.js";
 import { json } from "node:stream/consumers"
 import { updateStat } from "./StatTeam.js";
+import { countTeam } from "./Team.js";
 
 const groups = await allGroup()
 
@@ -59,10 +60,8 @@ export const getMatchByGroup = async (request, response, url) => {
 
 export const getMatch = async () => {
     const matchs = await jsonMatch()
-    console.log(groups[0].teams.length === 0);
-
-    if (groups[0].teams.length === 0) {
-        return { status: "warning", message: "you must to add teams" }
+    if (await countTeam() < 8) {
+        return { status: "warning", message: "you must to add more 8 teams" }
     } else {
         if (matchs.length === 0) {
             addMatch()

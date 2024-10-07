@@ -147,7 +147,7 @@ function jsonResponsgroup(groups, name) {
     return json;
 }
 
-async function groupFilterByName() {
+async function buildGroups() {
     const group = await getGroup()
     const name = await groupName()
     const result = []
@@ -162,12 +162,12 @@ async function groupFilterByName() {
 
 export async function getGroupByType(request, response, url) {
     const typeGroup = url.searchParams.get('type');
-    const groups = await groupFilterByName();
+    const groups = await buildGroups();
     const findGroup = groups.find(group => group.group === typeGroup);
     return findGroup
 }
 
 export async function allGroup() {
-    const groups = await groupFilterByName()
+    const groups = await buildGroups()
     return groups;
 }

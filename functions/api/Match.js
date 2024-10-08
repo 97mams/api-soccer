@@ -12,10 +12,13 @@ const buildMatch = (teams, groupName) => {
     for (let team in teams) {
         const indexKey = parseInt(team)
         const exitLoop = teams.length
+        console.log(exitLoop);
         for (let key = indexKey; key < exitLoop; key++) {
             if (exitLoop !== key + 1) {
+                console.log("mety");
                 const data = { team1: teams[indexKey].name, team2: teams[key + 1].name, groupName: groupName }
-                creatMatchs(data)
+                const promise = new Promise((resolve => resolve(data)))
+                creatMatchs(promise)
             }
         }
     }
@@ -44,18 +47,23 @@ const jsonMatch = async () => {
     return result
 }
 
-const addMatch = () => {
-    for (let group of groups) {
-        if (group.teams.length === 0) {
-            return
+export const addMatch = async (request, response, url) => {
+    const bool = await json(request)
+    if (bool) {
+        for (let group of groups) {
+            if (group.teams.length === 0) {
+                return
+            }
+            buildMatch(group.teams, group.group)
         }
-        buildMatch(group.teams, group.group)
+        return { message: "ok" }
     }
 }
 
 export const getMatchByGroup = async (request, response, url) => {
     const groupName = url.searchParams.get("group")
-    return await getMatchByGroupName(groupName)
+    const matchs = await getMatchByGroupName(groupName)
+    return { total: matchs.length, matchs: matchs }
 }
 
 export const getMatch = async () => {
@@ -63,6 +71,7 @@ export const getMatch = async () => {
     if (await countTeam() < 8) {
         return { status: "warning", message: "you must to add more 8 teams" }
     } else {
+        console.log(matchs.length);
         if (matchs.length === 0) {
             addMatch()
             return await getMatch()

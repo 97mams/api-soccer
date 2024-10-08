@@ -1,7 +1,7 @@
 import { createServer } from "node:http";
 import { getTeam, getTeams, addTeam, modifTeam } from "./functions/api/Team.js";
 import { addGroup, allGroup, getGroupByType } from "./functions/api/Group.js";
-import { getMatch, getMatchByGroup, updateStatMatch } from './functions/api/Match.js'
+import { addMatch, getMatch, getMatchByGroup, updateStatMatch } from './functions/api/Match.js'
 import { updateMatchs } from "./functions/matchStorage.js";
 
 const port = 3000;
@@ -44,10 +44,13 @@ const callback = async (request, response) => {
             case "GET:/matchs":
                 results = await getMatch();
                 break;
+            case "POST:/matchs":
+                results = await addMatch(request, response, url);
+                break;
             case "PUT:/match":
                 results = await updateStatMatch(request, response, url);
                 break;
-            case "OPTIONS:/groups":
+            case "OPTIONS:/":
                 response.setHeader('Access-Control-Allow-Headers', 'Accept, Content-Type');
                 break;
             default:

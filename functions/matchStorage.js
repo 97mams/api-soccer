@@ -41,9 +41,12 @@ export async function getMatchByGroupName(groupName) {
  * @returns {Void}
  */
 export async function creatMatchs(data) {
+    const json = await data
+    console.log(json);
+
     const sqlMatch = "INSERT INTO matchs (team1,team2, groupName) VALUES(?,?,?)"
     const sqlScore = "INSERT INTO score (team1,team2, id_match) VALUES(?,?,?)"
-    const [result] = await db.query(sqlMatch, [data.team1, data.team2, data.groupName])
+    const [result] = await db.query(sqlMatch, [json.team1, json.team2, json.groupName])
     await db.query(sqlScore, [0, 0, result.insertId])
 }
 

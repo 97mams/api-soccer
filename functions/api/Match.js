@@ -44,7 +44,7 @@ const jsonMatch = async () => {
         result.push(json);
 
     }
-    return result
+    return { total: matchs.length, matchs: [result] }
 }
 
 export const addMatch = async (request, response, url) => {
@@ -71,11 +71,11 @@ export const getMatch = async () => {
     if (await countTeam() < 8) {
         return { status: "warning", message: "you must to add more 8 teams" }
     } else {
-        console.log(matchs.length);
-        if (matchs.length === 0) {
-            addMatch()
-            return await getMatch()
-        }
+        // console.log(matchs.length);
+        // if (matchs.length === 0) {
+        //     addMatch()
+        //     return await getMatch()
+        // }
         return matchs
     }
 }
@@ -112,7 +112,6 @@ const resultMatch = (match, score) => {
     return json
 }
 
-
 export const updateStatMatch = async (request, response, url) => {
     const matchs = await getMatchs()
     const matchId = parseInt(url.searchParams.get("id"))
@@ -124,6 +123,9 @@ export const updateStatMatch = async (request, response, url) => {
         const stat = await updateStat(result.data, result.team)
         updateTeam(stat, result.team)
     }
+    return { message: "successfull" }
+}
 
+const winnersGroup = () => {
 
 }

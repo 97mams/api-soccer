@@ -31,3 +31,7 @@ export async function createGroup(params) {
     const row = await db.query(sql, [params.id_group, params.id_team, created_at])
 
 }
+
+export async function getGroupByPoint() {
+
+}

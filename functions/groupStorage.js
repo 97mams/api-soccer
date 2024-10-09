@@ -5,7 +5,14 @@ import { db } from "./connectDb.js";
  * @return {Promise<group[]>}
  */
 export async function getGroup() {
-    const sql = "SELECT * FROM soccer.group JOIN group_types JOIN teams on group_types.id_type = group.id_type AND teams.id_team = group.id_team ";
+    // const sql = "SELECT * FROM soccer.group JOIN group_types JOIN teams on group_types.id_type = group.id_type AND teams.id_team = group.id_team ORDER BY point DESC";
+    const sql = `
+                SELECT g.*, gt.*, t.*
+                FROM soccer.group AS g
+                JOIN group_types AS gt ON gt.id_type = g.id_type
+                JOIN teams AS t ON t.id_team = g.id_team
+                ORDER BY point DESC
+    `
     const [row] = await db.query(sql);
     return row;
 }

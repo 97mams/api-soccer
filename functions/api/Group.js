@@ -2,6 +2,7 @@ import { json } from "node:stream/consumers";
 import { createGroup, getGroup, getGroupTypes } from "../groupStorage.js";
 import { allTeam } from "../teamStorage.js";
 import { countTeam } from "./Team.js";
+import { getMatchByGroupName } from "../matchStorage.js";
 
 async function groupName() {
     return await getGroupTypes();
@@ -47,7 +48,6 @@ const findLastValue = (array, chunkSize) => {
     for (let index = 0; index < resteTeam; index++) {
         result[index].push(array[array.length - resteTeam + index])
     }
-
     return result;
 }
 
@@ -62,7 +62,6 @@ function spintArrayIntoChunks(array, chunkSize) {
         }
     }
     return result
-
 }
 
 function teamId(keys, teams) {
@@ -76,8 +75,6 @@ function teamId(keys, teams) {
 
 function generateJsongroup(arrayGroupName, arrayTeamKey, teams) {
     const result = [];
-    console.log(arrayTeamKey);
-
     arrayGroupName.forEach((group, key) => {
         const json = {
             groupId: group.id_type, teamId: teamId(arrayTeamKey[key], teams)
@@ -90,7 +87,6 @@ function generateJsongroup(arrayGroupName, arrayTeamKey, teams) {
 export async function generatRandomGroup() {
     const arrayGroupName = await groupName();
     const numberTeamGroup = parseInt(await countTeam() / arrayGroupName.length)
-
     let teamArray = await allTeam();
     let keyArrayTeam = await randomKeyArrayTeam();
     const splitArray = spintArrayIntoChunks(keyArrayTeam, numberTeamGroup);
@@ -117,11 +113,10 @@ export async function addGroup(request, response, url) {
     return;
 }
 
-
 function splitTeam(teams, typeGroup) {
     const teamIngroup = []
-
     for (let team of teams) {
+
         if (team.name_type === typeGroup) {
             const jsonTeam = {
                 groupId: team.id_group,
@@ -131,6 +126,7 @@ function splitTeam(teams, typeGroup) {
                 lose: team.losses,
                 draws: team.draws,
                 point: team.point,
+                match: team.match,
             }
             teamIngroup.push(jsonTeam)
         }
@@ -152,10 +148,9 @@ async function buildGroups() {
     const group = await getGroup()
     const name = await groupName()
     const result = []
-    name.forEach(groupName => {
+    name.forEach((groupName) => {
         const type = groupName.name_type
         const groupByName = group.filter(group => type === group.name_type)
-
         result.push(jsonResponsgroup(groupByName, type))
     })
     return result

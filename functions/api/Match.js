@@ -127,5 +127,5 @@ export const updateStatMatch = async (request, response, url) => {
 }
 
 const winnersGroup = () => {
-
+    return []
 }

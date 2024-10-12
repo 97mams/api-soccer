@@ -1,11 +1,12 @@
 const { Team } = require("../models");
+const { updateStat } = require("./StatTeam")
 const { json } = require("node:stream/consumers");
 // import { updateStat } from "./StatTeam.js";
 
 
 async function getTeams(resquest, respose) {
     const teams = await Team.findAll()
-    return { status: "success", datas: teams }
+    return { status: "success", data: { teams: teams } }
 }
 
 async function getTeam(resquest, respose, url) {
@@ -14,7 +15,7 @@ async function getTeam(resquest, respose, url) {
         where: { name: name }
     })
     if (teamByName === null) return { message: "Team not found" }
-    return teamByName
+    return { status: "success", data: { team: teamByName } }
 }
 
 async function addTeam(resquest, respose) {
@@ -32,18 +33,22 @@ async function addTeam(resquest, respose) {
     if (created) {
         return { status: "success", data: team }
     }
+    return { status: "faild", message: "team also created" }
 }
-// export async function modifTeam(resquest, respose, url) {
-//     const teamName = url.searchParams.get('name');
-//     const params = await json(resquest);
-//     const stat = await updateStat(params, teamName);
-//     const message = "Team success uptaded";
 
-//     const result = await updateTeam(stat, teamName)
-//     if (!result) return
-//     Object.assign(stat, { id })
-//     return jsonResponse(message, stat)
-// }
+async function modifTeam(resquest, respose, url) {
+    const teamName = url.searchParams.get('name')
+    const params = await json(resquest)
+    const state = await updateStat(params, teamName)
+    console.log(state);
+
+    const team = await Team.update(
+        state,
+        { where: { name: teamName } }
+    )
+
+    return team
+}
 
 // export async function countTeam() {
 //     const team = await allTeam();
@@ -58,4 +63,4 @@ async function addTeam(resquest, respose) {
 //     return json;
 // }
 
-module.exports = { addTeam, getTeams, getTeam }
+module.exports = { addTeam, getTeams, getTeam, modifTeam }

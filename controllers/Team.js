@@ -4,39 +4,33 @@ const { json } = require("node:stream/consumers");
 
 
 async function getTeams(resquest, respose) {
-    // return { total: await countTeam(), teams: await allTeam() }
     const teams = await Team.findAll()
-    return teams
+    return { status: "success", datas: teams }
 }
 
-// export async function getTeam(resquest, respose, url) {
-//     const data = url.searchParams.get('name');
-
-//     let message
-//     const teamName = data.toUpperCase();
-//     const findTeam = (await allTeam()).find(team => team.name.toUpperCase() === teamName.trim());
-//     if (!findTeam) {
-//         message = "Team not found"
-//         return jsonResponse(message, findTeam)
-//     }
-//     return findTeam;
-// }
+async function getTeam(resquest, respose, url) {
+    const name = url.searchParams.get('name');
+    const teamByName = await Team.findOne({
+        where: { name: name }
+    })
+    if (teamByName === null) return { message: "Team not found" }
+    return teamByName
+}
 
 async function addTeam(resquest, respose) {
+    const name = await json(resquest)
     const [team, created] = await Team.findOrCreate({
-        where: { name: "mamisoa" },
+        where: name,
         defaults: {
             wins: 0,
             losses: 0,
             draws: 0,
             point: 0,
+            match: 0
         }
     })
-    console.log(team.name); // 'sdepold'
-    console.log(created); // The boolean indicating whether this instance was just created
-
     if (created) {
-        return team
+        return { status: "success", data: team }
     }
 }
 // export async function modifTeam(resquest, respose, url) {
@@ -64,4 +58,4 @@ async function addTeam(resquest, respose) {
 //     return json;
 // }
 
-module.exports = { getTeams }
+module.exports = { addTeam, getTeams, getTeam }

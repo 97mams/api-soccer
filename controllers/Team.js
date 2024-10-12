@@ -1,8 +1,6 @@
 const { Team } = require("../models");
 const { updateStat } = require("./StatTeam")
 const { json } = require("node:stream/consumers");
-// import { updateStat } from "./StatTeam.js";
-
 
 async function getTeams(resquest, respose) {
     const teams = await Team.findAll()
@@ -49,18 +47,5 @@ async function modifTeam(resquest, respose, url) {
 
     return team
 }
-
-// export async function countTeam() {
-//     const team = await allTeam();
-//     return team.length;
-// }
-
-// function jsonResponse(message, team) {
-//     const json = {
-//         message: message,
-//         team: team
-//     };
-//     return json;
-// }
 
 module.exports = { addTeam, getTeams, getTeam, modifTeam }

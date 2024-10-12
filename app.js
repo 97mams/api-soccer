@@ -19,9 +19,9 @@ const callback = async (request, response) => {
             case "GET:/teams":
                 results = await getTeams();
                 break;
-            // case "GET:/team":
-            //     results = await getTeam(request, response, url);
-            //     break;
+            case "GET:/team":
+                results = await getTeam(request, response, url);
+                break;
             case "POST:/team":
                 results = await addTeam(request, response);
                 break;

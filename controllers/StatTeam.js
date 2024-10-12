@@ -58,21 +58,20 @@ function totalMatch(win, lose, draw) {
  *@return { Promise<Stat[]>}
  */
 async function updateStat(param, name) {
-    const team = await Team.findOne({ where: { name: name } })
+    const teamByName = await Team.findOne({ where: { name: name } })
+    const team = teamByName.dataValues
     const win = wineMatch(team.wins, param.win)
     const draw = totalDeaws(team.draws, param.draw)
     const lose = loseMatch(team.losses, param.lose)
-
     const promise = new Promise(resolve => {
         const resultStat = {
-            win: win,
-            lose: lose,
+            wins: win,
+            losses: lose,
             draws: draw,
             point: pointTeam(win, draw),
             match: totalMatch(win, lose, draw)
         }
         resolve(resultStat)
-
     })
     return promise
 }

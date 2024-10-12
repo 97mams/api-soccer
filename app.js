@@ -1,8 +1,7 @@
-import { createServer } from "node:http";
-import { getTeam, getTeams, addTeam, modifTeam } from "./functions/api/Team.js";
-import { addGroup, allGroup, getGroupByType } from "./functions/api/Group.js";
-import { addMatch, getMatch, getMatchByGroup, updateStatMatch } from './functions/api/Match.js'
-import { updateMatchs } from "./functions/matchStorage.js";
+const { createServer } = require("node:http");
+const { getTeam, getTeams, addTeam, modifTeam } = require("./controllers/Team");
+// const { addGroup, allGroup, getGroupByType } = require ("./controllers");
+// import { addMatch, getMatch, getMatchByGroup, updateStatMatch } from './functions/api/Match.js'
 
 const port = 3000;
 const host = "127.0.0.1";
@@ -20,36 +19,36 @@ const callback = async (request, response) => {
             case "GET:/teams":
                 results = await getTeams();
                 break;
-            case "GET:/team":
-                results = await getTeam(request, response, url);
-                break;
+            // case "GET:/team":
+            //     results = await getTeam(request, response, url);
+            //     break;
             case "POST:/team":
                 results = await addTeam(request, response);
                 break;
-            case "PUT:/team":
-                results = await modifTeam(request, response, url);
-                break;
-            case "GET:/groups":
-                results = await allGroup();
-                break;
-            case "GET:/group":
-                results = await getGroupByType(request, response, url);
-                break;
-            case "POST:/groups":
-                results = await addGroup(request, response, url);
-                break;
-            case "GET:/match":
-                results = await getMatchByGroup(request, response, url);
-                break;
-            case "GET:/matchs":
-                results = await getMatch();
-                break;
-            case "POST:/matchs":
-                results = await addMatch(request, response, url);
-                break;
-            case "PUT:/match":
-                results = await updateStatMatch(request, response, url);
-                break;
+            // case "PUT:/team":
+            //     results = await modifTeam(request, response, url);
+            //     break;
+            // case "GET:/groups":
+            //     results = await allGroup();
+            //     break;
+            // case "GET:/group":
+            //     results = await getGroupByType(request, response, url);
+            //     break;
+            // case "POST:/groups":
+            //     results = await addGroup(request, response, url);
+            //     break;
+            // case "GET:/match":
+            //     results = await getMatchByGroup(request, response, url);
+            //     break;
+            // case "GET:/matchs":
+            //     results = await getMatch();
+            //     break;
+            // case "POST:/matchs":
+            //     results = await addMatch(request, response, url);
+            //     break;
+            // case "PUT:/match":
+            //     results = await updateStatMatch(request, response, url);
+            //     break;
             case "OPTIONS:/":
                 response.setHeader('Access-Control-Allow-Headers', 'Accept, Content-Type');
                 break;

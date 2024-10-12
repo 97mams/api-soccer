@@ -25,9 +25,9 @@ const callback = async (request, response) => {
             case "POST:/team":
                 results = await addTeam(request, response);
                 break;
-            // case "PUT:/team":
-            //     results = await modifTeam(request, response, url);
-            //     break;
+            case "PUT:/team":
+                results = await modifTeam(request, response, url);
+                break;
             // case "GET:/groups":
             //     results = await allGroup();
             //     break;
@@ -54,6 +54,10 @@ const callback = async (request, response) => {
                 break;
             default:
                 response.writeHead(400)
+                results = {
+                    "status": "error",
+                    "message": "Unable to communicate with database"
+                }
                 break;
         }
         if (results) {

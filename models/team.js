@@ -19,8 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     losses: DataTypes.INTEGER,
     draws: DataTypes.INTEGER,
     point: DataTypes.INTEGER,
-    match: DataTypes.INTEGER,
-    created_at: DataTypes.DATE
+    match: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Team',

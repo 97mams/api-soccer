@@ -11,9 +11,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.group_type, {
-        foreignKey: 'id_type'
-      })
     }
   }
   group_type.init({

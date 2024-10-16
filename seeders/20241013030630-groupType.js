@@ -14,20 +14,12 @@ module.exports = {
     */
     await queryInterface.bulkInsert('group_types', [{
       name_type: "A",
-      createdAt: new Date(),
-      updatedAt: new Date()
     }, {
       name_type: "B",
-      createdAt: new Date(),
-      updatedAt: new Date()
     }, {
       name_type: "C",
-      createdAt: new Date(),
-      updatedAt: new Date()
     }, {
       name_type: "D",
-      createdAt: new Date(),
-      updatedAt: new Date()
     }])
   },
 

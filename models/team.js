@@ -11,9 +11,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.team, {
-        foreignKey: 'id_team'
-      })
     }
   }
   Team.init({

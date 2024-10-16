@@ -1,7 +1,6 @@
 const { createServer } = require("node:http");
 const { getTeam, getTeams, addTeam, modifTeam } = require("./controllers/Team");
-// const { addGroup, allGroup, getGroupByType } = require ("./controllers");
-// import { addMatch, getMatch, getMatchByGroup, updateStatMatch } from './functions/api/Match.js'
+const { getGroup, } = require("./controllers/Group");
 
 const port = 3000;
 const host = "127.0.0.1";
@@ -28,9 +27,9 @@ const callback = async (request, response) => {
             case "PUT:/team":
                 results = await modifTeam(request, response, url);
                 break;
-            // case "GET:/groups":
-            //     results = await allGroup();
-            //     break;
+            case "GET:/groups":
+                results = await getGroup(request, response);
+                break;
             // case "GET:/group":
             //     results = await getGroupByType(request, response, url);
             //     break;

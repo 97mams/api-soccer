@@ -1,5 +1,5 @@
 const { Team } = require("../models");
-const { updateStat } = require("./StatTeam")
+const { updateStat } = require("../services/team")
 const { json } = require("node:stream/consumers");
 
 async function getTeams(resquest, respose) {

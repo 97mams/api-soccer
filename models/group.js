@@ -13,31 +13,9 @@ module.exports = (sequelize, DataTypes) => {
             // define association here
         }
     }
-    Team.init({
-        idTeam: {
-            name_type: DataTypes.STRING,
-            allowNull: false,
-            references: {
-                model: 'Teams',
-                key: 'id'
-            },
-            field: 'id_team',
-            onUpdate: 'CASCADE',
-            onDelete: 'CASCADE',
-            unique: true
-        },
-        idType: {
-            name_type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: 'group_types',
-                key: 'id'
-            },
-            field: 'id_type',
-            onUpdate: 'CASCADE',
-            onDelete: 'CASCADE',
-            unique: true
-        },
+    Group.init({
+        id_team: DataTypes.INTEGER,
+        id_type: DataTypes.INTEGER,
     }, {
         sequelize,
         modelName: 'group',

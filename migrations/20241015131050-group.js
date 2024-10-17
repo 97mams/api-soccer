@@ -2,7 +2,13 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const query = await queryInterface.createTable('TeamGroups', {
+    await queryInterface.createTable('TeamGroups', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
+      },
       teamId: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -32,9 +38,8 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-      }  // Pour faire de la combinaison de teamId et groupTypeId une clé primaire
+      }
     });
-
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('TeamGroups');

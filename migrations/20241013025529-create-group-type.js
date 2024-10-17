@@ -14,6 +14,14 @@ module.exports = {
         type: Sequelize.STRING,
         unique: true
       },
+      createdAt: {
+        type: Sequelize.DATE,
+        unique: true
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
+        unique: true
+      },
     });
   },
   async down(queryInterface, Sequelize) {

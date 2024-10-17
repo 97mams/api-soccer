@@ -10,13 +10,13 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      teamId: 3,
+      teamId: 5,
       groupTypeId: 2,
       createdAt: new Date(),
       updatedAt: new Date()
     },
     {
-      teamId: 4,
+      teamId: 2,
       groupTypeId: 2,
       createdAt: new Date(),
       updatedAt: new Date()

@@ -1,49 +1,42 @@
 'use strict';
 
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('groups', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      id_type: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        references: {
-          model: 'group_types',
-          key: 'id',
-        }
-      },
-      id_team: {
+  up: async (queryInterface, Sequelize) => {
+    const query = await queryInterface.createTable('TeamGroups', {
+      teamId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
         references: {
           model: 'Teams',
           key: 'id',
-        }
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+      groupTypeId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        references: {
+          model: 'group_types',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       createdAt: {
-        type: Sequelize.DATE
+        allowNull: false,
+        type: Sequelize.DATE,
       },
       updatedAt: {
-        type: Sequelize.DATE
-      }
-    })
-  },
+        allowNull: false,
+        type: Sequelize.DATE,
+      }  // Pour faire de la combinaison de teamId et groupTypeId une clé primaire
+    });
 
-  async down(queryInterface, Sequelize) {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
-    await queryInterface.dropTable('groups')
-  }
+  },
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable('TeamGroups');
+  },
 };

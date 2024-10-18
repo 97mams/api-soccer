@@ -1,10 +1,9 @@
-function jsonResponse(data) {
-    console.log(data);
+function jsonResponse(name, data) {
 
     if (data !== null) {
-        return { status: "success", data: data }
+        return { status: "success", name: data }
     }
-    return { status: "error", message: "empty reccords" }
+    return { status: "error", message: `${name} not found` }
 }
 
 module.exports = { jsonResponse }

@@ -4,7 +4,7 @@ const { Team } = require("../models")
  * calculer la somme du points ganger par chaque equipe
  * @param {number} win
  * @param {number} draw
- * @return {number}point
+ * @return {number}
  */
 function pointTeam(win, draw) {
     const point = (win * 3) + draw
@@ -110,11 +110,11 @@ async function createTeam(name) {
 async function updateTeam(params, teamName) {
     const state = await updateStat(params, teamName)
     if (state === null) return null
-    const team = await Team.update(
+    await Team.update(
         state,
         { where: { name: teamName } }
     )
-    return team
+    return await getTeamByName(teamName)
 }
 
 module.exports = { findAllService, getTeamByName, createTeam, updateTeam }

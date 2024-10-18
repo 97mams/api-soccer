@@ -5,7 +5,6 @@ const { json } = require("node:stream/consumers");
 async function getTeams(resquest, respose) {
     const teams = await findAllService();
     const nameRespnse = "teams"
-    console.log('ito', teams);
 
     return jsonResponse(nameRespnse, teams);
 }

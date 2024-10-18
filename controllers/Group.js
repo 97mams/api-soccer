@@ -1,13 +1,14 @@
-const groupService = require('../services/groupService')
+const groupService = require('../services/teamGroupService')
+const { jsonResponse } = require('../services/jsonResponseService')
 
 async function getGroup(request, response) {
     const groups = await groupService.findAllService()
-    console.log(groups);
-
-    if (groups !== null) {
-        return { status: "success", data: { groups: groups } }
-    }
-    return { status: "error", message: "groups not found" }
+    return jsonResponse({ groups })
 }
 
-module.exports = { getGroup }
+async function addTeamGroup(request, response) {
+    const teamGroups = await groupService.createTeamGroupService(request, response)
+    return jsonResponse({ teamGroups })
+}
+
+module.exports = { getGroup, addTeamGroup }

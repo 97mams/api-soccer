@@ -3,12 +3,14 @@ const { jsonResponse } = require('../services/jsonResponseService')
 
 async function getGroup(request, response) {
     const groups = await groupService.findAllService()
-    return jsonResponse({ groups })
+    const nameResponse = "groups"
+    return jsonResponse(nameResponse, groups)
 }
 
 async function addTeamGroup(request, response) {
     const teamGroups = await groupService.createTeamGroupService(request, response)
-    return jsonResponse({ teamGroups })
+    const nameResponse = "teamGroups"
+    return jsonResponse(nameResponse, teamGroups)
 }
 
 module.exports = { getGroup, addTeamGroup }

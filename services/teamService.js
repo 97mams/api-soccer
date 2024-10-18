@@ -59,6 +59,7 @@ function totalMatch(win, lose, draw) {
  */
 async function updateStat(param, name) {
     const teamByName = await Team.findOne({ where: { name: name } })
+    if (teamByName === null) return null
     const team = teamByName.dataValues
     const win = wineMatch(team.wins, param.win)
     const draw = totalDeaws(team.draws, param.draw)
@@ -76,4 +77,44 @@ async function updateStat(param, name) {
     return promise
 }
 
-module.exports = { updateStat }
+async function findAllService() {
+    const teams = await Team.findAll()
+    if (teams.length === 0) return null
+    return teams
+}
+
+async function getTeamByName(name) {
+    const teamByName = await Team.findOne({
+        where: { name: name }
+    })
+    return teamByName
+}
+
+async function createTeam(name) {
+    const [team, created] = await Team.findOrCreate({
+        where: name,
+        defaults: {
+            wins: 0,
+            losses: 0,
+            draws: 0,
+            point: 0,
+            match: 0
+        }
+    })
+    if (created) {
+        return team
+    }
+    return null
+}
+
+async function updateTeam(params, teamName) {
+    const state = await updateStat(params, teamName)
+    if (state === null) return null
+    const team = await Team.update(
+        state,
+        { where: { name: teamName } }
+    )
+    return team
+}
+
+module.exports = { findAllService, getTeamByName, createTeam, updateTeam }

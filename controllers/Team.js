@@ -1,51 +1,35 @@
-const { Team } = require("../models");
-const { updateStat } = require("../services/teamService")
+const { jsonResponse } = require("../services/jsonResponseService");
+const { findAllService, getTeamByName, createTeam, updateTeam } = require("../services/teamService")
 const { json } = require("node:stream/consumers");
 
 async function getTeams(resquest, respose) {
-    const teams = await Team.findAll()
-    return { status: "success", data: { teams: teams } }
+    const teams = await findAllService();
+    const nameRespnse = "teams"
+    console.log('ito', teams);
+
+    return jsonResponse(nameRespnse, teams);
 }
 
 async function getTeam(resquest, respose, url) {
     const name = url.searchParams.get('name');
-    const teamByName = await Team.findOne({
-        where: { name: name }
-    })
-    if (teamByName === null) return { message: "Team not found" }
-    return { status: "success", data: { team: teamByName } }
+    const team = await getTeamByName(name)
+    const nameRespnse = "team"
+    return jsonResponse(nameRespnse, team)
 }
 
 async function addTeam(resquest, respose) {
     const name = await json(resquest)
-    const [team, created] = await Team.findOrCreate({
-        where: name,
-        defaults: {
-            wins: 0,
-            losses: 0,
-            draws: 0,
-            point: 0,
-            match: 0
-        }
-    })
-    if (created) {
-        return { status: "success", data: team }
-    }
-    return { status: "faild", message: "team also created" }
+    const team = await createTeam(name)
+    const nameRespnse = "team"
+    return jsonResponse(nameRespnse, team)
 }
 
 async function modifTeam(resquest, respose, url) {
     const teamName = url.searchParams.get('name')
     const params = await json(resquest)
-    const state = await updateStat(params, teamName)
-    console.log(state);
-
-    const team = await Team.update(
-        state,
-        { where: { name: teamName } }
-    )
-
-    return team
+    const team = await updateTeam(params, teamName)
+    const nameRespnse = "team"
+    return jsonResponse(nameRespnse, team)
 }
 
 module.exports = { addTeam, getTeams, getTeam, modifTeam }

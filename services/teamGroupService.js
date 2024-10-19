@@ -1,7 +1,7 @@
 const { TeamGroup, Team, group_type } = require('../models')
 const { json } = require('node:stream/consumers')
 
-const findAllService = async () => {
+const findAllGroupService = async () => {
     const teamGroup = await TeamGroup.findAll({
         attributes: ["id"],
         order: [['id', 'ASC']],
@@ -131,4 +131,4 @@ async function splitgroup(params) {
     }
 }
 
-module.exports = { findAllService, createTeamGroupService }
+module.exports = { findAllGroupService, createTeamGroupService }

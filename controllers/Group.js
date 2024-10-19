@@ -2,7 +2,7 @@ const groupService = require('../services/teamGroupService')
 const { jsonResponse } = require('../services/jsonResponseService')
 
 async function getGroup(request, response) {
-    const groups = await groupService.findAllService()
+    const groups = await groupService.findAllGroupService()
     const nameResponse = "groups"
     return jsonResponse(nameResponse, groups)
 }

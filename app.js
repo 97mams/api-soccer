@@ -1,6 +1,7 @@
 const { createServer } = require("node:http");
 const { getTeam, getTeams, addTeam, modifTeam } = require("./controllers/Team");
 const { getGroup, addTeamGroup } = require("./controllers/Group");
+const { getMatches, addMatch } = require("./controllers/Match");
 
 const port = 3000;
 const host = "127.0.0.1";
@@ -39,12 +40,12 @@ const callback = async (request, response) => {
             // case "GET:/match":
             //     results = await getMatchByGroup(request, response, url);
             //     break;
-            // case "GET:/matchs":
-            //     results = await getMatch();
-            //     break;
-            // case "POST:/matchs":
-            //     results = await addMatch(request, response, url);
-            //     break;
+            case "GET:/matches":
+                results = await getMatches();
+                break;
+            case "POST:/matches":
+                results = await addMatch(request, response, url);
+                break;
             // case "PUT:/match":
             //     results = await updateStatMatch(request, response, url);
             //     break;

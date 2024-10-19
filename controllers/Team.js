@@ -1,9 +1,9 @@
 const { jsonResponse } = require("../services/jsonResponseService");
-const { findAllService, getTeamByName, createTeam, updateTeam } = require("../services/teamService")
+const { findAllTeamService, getTeamByName, createTeam, updateTeam } = require("../services/teamService")
 const { json } = require("node:stream/consumers");
 
 async function getTeams(resquest, respose) {
-    const teams = await findAllService();
+    const teams = await findAllTeamService();
     const nameRespnse = "teams"
 
     return jsonResponse(nameRespnse, teams);

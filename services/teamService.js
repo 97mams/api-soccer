@@ -77,7 +77,7 @@ async function updateStat(param, name) {
     return promise
 }
 
-async function findAllService() {
+async function findAllTeamService() {
     const teams = await Team.findAll()
     if (teams.length === 0) return null
     return teams
@@ -117,4 +117,4 @@ async function updateTeam(params, teamName) {
     return await getTeamByName(teamName)
 }
 
-module.exports = { findAllService, getTeamByName, createTeam, updateTeam }
+module.exports = { findAllTeamService, getTeamByName, createTeam, updateTeam }

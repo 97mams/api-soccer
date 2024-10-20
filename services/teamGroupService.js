@@ -1,45 +1,13 @@
 const { TeamGroup, Team, group_type } = require('../models')
 const { json } = require('node:stream/consumers')
 
-const findAllGroupService = async () => {
-    const teamGroup = await TeamGroup.findAll({
-        attributes: ["id"],
-        order: [['id', 'ASC']],
-        include: [
-            { model: Team, as: "Teams", attributes: ["name"] },
-            { model: group_type, as: "groupTypes", attributes: ["name_type"] },
-        ],
-    })
-    if (teamGroup.length === 0) {
-        return null
-    }
-    let result = []
-    for (let groups of teamGroup) {
-        console.log(groups);
-        result.push({ id: groups.id, team: groups.Teams.name, groupe: groups.groupTypes.name_type })
-    }
-
-    return result
-
-}
-
-const createTeamGroupService = async (request, response) => {
-    const data = await json(request)
-    if (data.bool) {
-        const generateGroup = await generatRandomGroup();
-        splitgroup(generateGroup)
-        return generateGroup
-    }
-    return null;
-}
-
-function randomKeyArrayTeam(teams) {
-    const numberTeam = teams.length
-    let breakLoop = numberTeam
+async function randomKeyArrayTeam() {
+    const countTeam = (await Team.findAll()).length
+    let breakLoop = countTeam
     const team = []
 
     for (let index = 0; index < breakLoop; index++) {
-        const random = ~~(Math.random() * numberTeam)
+        const random = ~~(Math.random() * countTeam)
         if (team.includes(random)) {
             breakLoop++
         } else {
@@ -98,9 +66,9 @@ function teamId(keys, teams) {
 }
 
 
-function generateJsongroup(groupTypes, arrayTeamKey, teams) {
+function generateJsongroup(arrayGroupName, arrayTeamKey, teams) {
     const result = [];
-    groupTypes.forEach((group, key) => {
+    arrayGroupName.forEach((group, key) => {
         const json = {
             groupId: group.id, teamId: teamId(arrayTeamKey[key], teams)
         }
@@ -109,13 +77,13 @@ function generateJsongroup(groupTypes, arrayTeamKey, teams) {
     return result;
 }
 
-async function generatRandomGroup() {
-    const groupTypes = await group_type.findAll();
+async function generateRandomGroup() {
+    const arrayGroupName = await group_type.findAll({ attributes: ['id', "name_type"] })
     const teams = await Team.findAll()
-    const numberTeamGroup = parseInt(teams.length / groupTypes.length)
-    let keyArrayTeam = randomKeyArrayTeam(teams);
+    const numberTeamGroup = parseInt(teams.length / arrayGroupName.length)
+    let keyArrayTeam = await randomKeyArrayTeam();
     const splitArray = spintArrayIntoChunks(keyArrayTeam, numberTeamGroup);
-    const result = generateJsongroup(groupTypes, splitArray, teams)
+    const result = generateJsongroup(arrayGroupName, splitArray, teams)
     return result;
 }
 
@@ -123,12 +91,65 @@ async function splitgroup(params) {
     for (let group in params) {
         params[group].teamId.forEach(async (teamId) => {
             const groupTypeId = params[group].groupId
-            // createGroup({ id_group, id_team })
-            const a = await TeamGroup.create({ groupTypeId, teamId, createdAt: new Date(), udpdatedAt: new Date() })
-            console.log(a);
-
+            const createdAt = new Date()
+            const updatedAt = new Date()
+            const create = await TeamGroup.create({ teamId, groupTypeId, createdAt, updatedAt })
+            return create
         })
     }
 }
 
-module.exports = { findAllGroupService, createTeamGroupService }
+const findAllGroupService = async () => {
+    const teamGroup = await TeamGroup.findAll({
+        attributes: ["id"],
+        order: [['id', 'ASC']],
+        include: [
+            { model: Team, as: "Teams", attributes: ["name"] },
+            { model: group_type, as: "groupTypes", attributes: ["name_type"] },
+        ],
+    })
+    if (teamGroup.length === 0) {
+        return null
+    }
+    let result = []
+    for (let groups of teamGroup) {
+        result.push({ id: groups.id, team: groups.Teams.name, groupe: groups.groupTypes.name_type })
+    }
+
+    return result
+
+}
+
+const createTeamGroupService = async (request, response) => {
+    const data = await json(request)
+    if (data.bool) {
+        const generateGroup = await generateRandomGroup();
+        return await splitgroup(generateGroup)
+    }
+    return null;
+}
+
+function jsonResponseFilterByName(group, name) {
+    let teams = []
+    for (const key in group) {
+        const team = group[key].Teams;
+        teams.push(team)
+    }
+    console.log(teams);
+
+    return { name, teams }
+}
+
+async function findGroupTeamOrberBynameService(name) {
+    const group = await TeamGroup.findAll({
+        attributes: ['id'],
+        include: [
+            { model: Team, as: "Teams", attributes: ["id", "name", "wins", "losses", "draws", "point", "match"] },
+            { model: group_type, as: "groupTypes", attributes: ["name_type"] },
+        ],
+        where: { '$name_type$': name },
+    })
+    return jsonResponseFilterByName(group, name)
+}
+
+module.exports = { findAllGroupService, createTeamGroupService, findGroupTeamOrberBynameService }

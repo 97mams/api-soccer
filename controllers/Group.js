@@ -13,4 +13,11 @@ async function addTeamGroup(request, response) {
     return jsonResponse(nameResponse, teamGroups)
 }
 
-module.exports = { getGroup, addTeamGroup }
+async function getGroupByname(request, response, url) {
+    const name = url.searchParams.get('type')
+    const group = await groupService.findGroupTeamOrberBynameService(name)
+    const nameResponse = "group"
+    return jsonResponse(nameResponse, group)
+}
+
+module.exports = { getGroup, addTeamGroup, getGroupByname }

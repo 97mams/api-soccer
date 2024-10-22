@@ -100,7 +100,8 @@ async function splitgroup(params) {
 }
 
 const findAllGroupService = async () => {
-    const teamGroup = await TeamGroup.findAll({
+    const groupName = await group_type.findAll({ attributes: ["name_type"] })
+    const teamGroups = await TeamGroup.findAll({
         attributes: ["id"],
         order: [['id', 'ASC']],
         include: [
@@ -108,16 +109,13 @@ const findAllGroupService = async () => {
             { model: group_type, as: "groupTypes", attributes: ["name_type"] },
         ],
     })
-    if (teamGroup.length === 0) {
+    if (teamGroups.length === 0) {
         return null
     }
-    let result = []
-    for (let groups of teamGroup) {
-        result.push({ id: groups.id, team: groups.Teams.name, groupe: groups.groupTypes.name_type })
+    for (const name of groupName) {
+        name.name_type
+        
     }
-
-    return result
-
 }
 
 const createTeamGroupService = async (request, response) => {
@@ -135,9 +133,7 @@ function jsonResponseFilterByName(group, name) {
         const team = group[key].Teams;
         teams.push(team)
     }
-    console.log(teams);
-
-    return { name, teams }
+    return { name, total: teams.length, teams }
 }
 
 async function findGroupTeamOrberBynameService(name) {

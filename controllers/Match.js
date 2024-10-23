@@ -9,8 +9,8 @@ async function getMatches(request, response) {
 }
 
 async function addMatch(request, response) {
-    const data = json(request)
-    await addMatchService(data)
+    const isGenerate = await json(request)
+    await addMatchService(isGenerate)
 }
 
 module.exports = { getMatches, addMatch }

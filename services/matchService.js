@@ -2,17 +2,19 @@ const { findAllGroupService } = require('./teamGroupService')
 
 const { match } = require('../models')
 
-const buildMatch = (teams, groupName) => {
-    for (let team in teams) {
+const buildMatch = async (teams, groupName) => {
+    const toArrayTeam = [teams]
+    console.log(toArrayTeam);
+
+    for (let team in toArrayTeam) {
         const indexKey = parseInt(team)
         const exitLoop = teams.length
-        console.log(exitLoop);
         for (let key = indexKey; key < exitLoop; key++) {
             if (exitLoop !== key + 1) {
-                console.log("mety");
-                const data = { team1: teams[indexKey].name, team2: teams[key + 1].name, groupName: groupName }
-                const promise = new Promise((resolve => resolve(data)))
-                creatMatchs(promise)
+                const data = { team1: toArrayTeam[indexKey], team2: toArrayTeam[key + 1], groupName: groupName }
+                //    const createdMatch = await match.create(data)
+                // console.log(data);
+
             }
         }
     }
@@ -41,14 +43,11 @@ const jsonMatch = async () => {
     return { total: matchs.length, matchs: [result] }
 }
 
-const addMatchService = async (request, response, url) => {
-    const bool = await json(request)
+const addMatchService = async (bool) => {
     const groups = await findAllGroupService()
     if (bool) {
         for (let group of groups) {
-            console.log(group);
-
-            // buildMatch(group.teams, group.name)
+            buildMatch(group.team, group.groupe)
         }
         return { message: "ok" }
     }

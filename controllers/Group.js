@@ -4,6 +4,8 @@ const { jsonResponse } = require('../services/jsonResponseService')
 async function getGroup(request, response) {
     const groups = await groupService.findAllGroupService()
     const nameResponse = "groups"
+    console.log(typeof groups);
+
     return jsonResponse(nameResponse, groups)
 }
 
@@ -16,7 +18,8 @@ async function addTeamGroup(request, response) {
 async function getGroupByname(request, response, url) {
     const name = url.searchParams.get('type')
     const group = await groupService.findGroupTeamOrberBynameService(name)
-    const nameResponse = "group"
+    console.log(typeof group);
+
     return jsonResponse(nameResponse, group)
 }
 

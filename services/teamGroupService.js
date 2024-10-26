@@ -99,8 +99,20 @@ async function splitgroup(params) {
     }
 }
 
+const splitGroupEachName = async (groups) => {
+    const groupNames = await group_type.findAll({ attributes: ["name_type"] })
+    const result = []
+    for (const groupName of groupNames) {
+        const name = groupName.name_type
+        const groupEachName = groups.filter(group => group.groupTypes.name_type === name)
+        result.push(groupEachName)
+    }
+    console.log(result.length);
+
+
+}
+
 const findAllGroupService = async () => {
-    const groupName = await group_type.findAll({ attributes: ["name_type"] })
     const teamGroups = await TeamGroup.findAll({
         attributes: ["id"],
         order: [['id', 'ASC']],
@@ -112,10 +124,7 @@ const findAllGroupService = async () => {
     if (teamGroups.length === 0) {
         return null
     }
-    for (const name of groupName) {
-        name.name_type
-        
-    }
+    splitGroupEachName(teamGroups)
 }
 
 const createTeamGroupService = async (request, response) => {

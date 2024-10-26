@@ -3,7 +3,6 @@ const { findAllGroupService } = require('./teamGroupService')
 const { match } = require('../models')
 
 const buildMatch = async (teams, groupName) => {
-
     let result = []
     for (let team in teams) {
         const indexKey = parseInt(team)
@@ -44,11 +43,14 @@ const jsonMatch = async () => {
 
 const addMatchService = async (bool) => {
     const groups = await findAllGroupService()
+    const result = []
     if (bool) {
-        for (let group of groups) {
-            return buildMatch(group.teams, group.name)
+        for (let key in groups) {
+            const created = buildMatch(groups[key].teams, groups[key].name)
+            result.push(created)
         }
     }
+    return result
 }
 
 /**

@@ -10,7 +10,9 @@ async function getMatches() {
 
 async function addMatch(request) {
     const isGenerate = await json(request)
-    await addMatchService(isGenerate)
+    const match = await addMatchService(isGenerate)
+    const nameResponse = 'matches'
+    return jsonResponse(nameResponse, match)
 }
 
 module.exports = { getMatches, addMatch }

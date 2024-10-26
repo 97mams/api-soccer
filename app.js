@@ -20,19 +20,19 @@ const callback = async (request, response) => {
                 results = await getTeams();
                 break;
             case "GET:/team":
-                results = await getTeam(request, response, url);
+                results = await getTeam(url);
                 break;
             case "POST:/team":
                 results = await addTeam(request, response);
                 break;
             case "PUT:/team":
-                results = await modifTeam(request, response, url);
+                results = await modifTeam(url);
                 break;
             case "GET:/groups":
                 results = await getGroup(request, response);
                 break;
             case "GET:/group":
-                results = await getGroupByname(request, response, url);
+                results = await getGroupByname(url);
                 break;
             case "POST:/groups":
                 results = await addTeamGroup(request, response);

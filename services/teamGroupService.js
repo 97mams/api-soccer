@@ -104,12 +104,18 @@ const splitGroupEachName = async (groups) => {
     const result = []
     for (const groupName of groupNames) {
         const name = groupName.name_type
-        const groupEachName = groups.filter(group => group.groupTypes.name_type === name)
-        result.push(groupEachName)
+        const groupEachNames = groups.filter(group => group.groupTypes.name_type === name)
+        let teams = []
+        for (const group of groupEachNames) {
+            if (group.groupTypes.name_type === name) {
+                teams.push(group.Teams.name)
+            }
+        }
+        console.log(teams);
+
+        result.push({ name, teams: teams })
     }
-    console.log(result.length);
-
-
+    return result
 }
 
 const findAllGroupService = async () => {
@@ -124,7 +130,7 @@ const findAllGroupService = async () => {
     if (teamGroups.length === 0) {
         return null
     }
-    splitGroupEachName(teamGroups)
+    return splitGroupEachName(teamGroups)
 }
 
 const createTeamGroupService = async (request, response) => {

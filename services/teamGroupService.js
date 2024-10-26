@@ -111,8 +111,6 @@ const splitGroupEachName = async (groups) => {
                 teams.push(group.Teams.name)
             }
         }
-        console.log(teams);
-
         result.push({ name, teams: teams })
     }
     return result

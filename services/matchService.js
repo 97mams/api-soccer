@@ -18,35 +18,6 @@ const buildMatch = async (teams, groupName) => {
             }
         }
     }
-    // const matches = await match.bulkCreate(result, { attributes: ["id"] })
-    // const findById = await match.findAll({ attributes: ["id"] })
-    // console.log(findById);
-
-    // const scores = await score.bulkCreate(matches)
-    // return matches
-}
-
-const jsonMatch = async () => {
-    const matchwithScore = await allMatch()
-    const matchs = await getMatchs()
-    let result = []
-    for (let match of matchwithScore) {
-        const score = await getScore(match.id_score)
-        const findMatch = matchs.filter(m => m.id_match === match.id_match)
-        const json = {
-            id: findMatch[0].id_match,
-            team1: findMatch[0].team1,
-            team2: findMatch[0].team2,
-            score: {
-                team1: score[0].team1,
-                team2: score[0].team2
-            },
-            group: findMatch[0].groupName
-        }
-        result.push(json);
-
-    }
-    return { total: matchs.length, matchs: [result] }
 }
 
 const addMatchService = async (bool) => {
@@ -109,7 +80,7 @@ const updateStatMatch = async (request, response, url) => {
 
 const findAllMatchService = async () => {
     const matches = await match.findAll({
-        attributes: ["id", "team1", "team2", "teamGroup"],
+        attributes: ["id", "team1", "team2", "teamGroup", "completed"],
         include: {
             model: score, as: 'scores', attributes: ["team1", "team2"]
         }

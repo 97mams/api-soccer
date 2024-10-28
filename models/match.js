@@ -20,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
   match.init({
     team1: DataTypes.STRING,
     team2: DataTypes.STRING,
-    teamGroup: DataTypes.STRING
+    teamGroup: DataTypes.STRING,
+    completed: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'match',

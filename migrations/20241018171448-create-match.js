@@ -18,6 +18,11 @@ module.exports = {
       teamGroup: {
         type: Sequelize.STRING
       },
+      completed: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      }
+      ,
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

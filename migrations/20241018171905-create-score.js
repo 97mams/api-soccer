@@ -10,10 +10,12 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       team1: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue: 0
       },
       team2: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue: 0
       },
       matchId: {
         allowNull: false,

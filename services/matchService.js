@@ -1,6 +1,7 @@
 const { findAllGroupService } = require('./teamGroupService')
 
 const { match } = require('../models')
+const { score } = require('../models')
 
 const buildMatch = async (teams, groupName) => {
     let result = []
@@ -11,11 +12,18 @@ const buildMatch = async (teams, groupName) => {
             if (exitLoop !== key + 1) {
                 const data = { team1: teams[indexKey], team2: teams[key + 1], teamGroup: groupName }
                 result.push(data)
+                const matches = await match.create(data)
+                await score.create({ team1: 0, team2: 0, matchId: matches.id })
+
             }
         }
     }
-    const matches = match.bulkCreate(result)
-    return matches
+    // const matches = await match.bulkCreate(result, { attributes: ["id"] })
+    // const findById = await match.findAll({ attributes: ["id"] })
+    // console.log(findById);
+
+    // const scores = await score.bulkCreate(matches)
+    // return matches
 }
 
 const jsonMatch = async () => {
@@ -100,7 +108,12 @@ const updateStatMatch = async (request, response, url) => {
 }
 
 const findAllMatchService = async () => {
-    const matches = await match.findAll()
+    const matches = await match.findAll({
+        attributes: ["id", "team1", "team2", "teamGroup"],
+        include: {
+            model: score, as: 'scores', attributes: ["team1", "team2"]
+        }
+    })
     if (matches.length === 0) {
         return null
     }

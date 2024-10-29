@@ -163,4 +163,16 @@ async function findGroupTeamOrberBynameService(name) {
     return jsonResponseFilterByName(group, name)
 }
 
-module.exports = { findAllGroupService, createTeamGroupService, findGroupTeamOrberBynameService }
+async function findTeamsOrderByPointService() {
+    const group = await TeamGroup.findAll({
+        attributes: ['id'],
+        include: [
+            { model: Team, as: "Teams", attributes: ["id", "name", "wins", "losses", "draws", "point", "match"] },
+            { model: group_type, as: "groupTypes", attributes: ["name_type"] },
+        ],
+        order: '$point$ ASC'
+    })
+    return splitGroupEachName(group)
+}
+
+module.exports = { findAllGroupService, createTeamGroupService, findGroupTeamOrberBynameService, findTeamsOrderByPointService }   

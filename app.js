@@ -26,7 +26,7 @@ const callback = async (request, response) => {
                 results = await addTeam(request, response);
                 break;
             case "PUT:/team":
-                results = await modifTeam(url);
+                results = await modifTeam(request, url);
                 break;
             case "GET:/groups":
                 results = await getGroup(request, response);
@@ -37,9 +37,9 @@ const callback = async (request, response) => {
             case "POST:/groups":
                 results = await addTeamGroup(request, response);
                 break;
-            // case "GET:/match":
-            //     results = await getMatchByGroup(request, response, url);
-            //     break;
+            case "GET:/match":
+                results = await getMatchByGroup(request, url);
+                break;
             case "GET:/matches":
                 results = await getMatches();
                 break;

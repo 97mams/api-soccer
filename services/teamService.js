@@ -85,6 +85,7 @@ async function findAllTeamService() {
 
 async function findTeamByName(name) {
     const teamByName = await Team.findOne({
+        attributes: ["id", "name", "wins", "losses", "draws", "point", "match"],
         where: { name: name }
     })
     return teamByName

@@ -4,7 +4,7 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     let teams = []
-    for (let index = 0; index < 16; index++) {
+    for (let index = 0; index < 20; index++) {
       teams.push({
         name: "FTA" + index,
         wins: 0,

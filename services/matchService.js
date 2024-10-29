@@ -6,14 +6,12 @@ const { score } = require('../models')
 const { updateTeam } = require('./teamService')
 
 const buildMatch = async (teams, groupName) => {
-    let result = []
     for (let team in teams) {
         const indexKey = parseInt(team)
         const exitLoop = teams.length
         for (let key = indexKey; key < exitLoop; key++) {
             if (exitLoop !== key + 1) {
-                const data = { team1: teams[indexKey], team2: teams[key + 1], teamGroup: groupName }
-                result.push(data)
+                const data = { team1: teams[indexKey].name, team2: teams[key + 1].name, teamGroup: groupName }
                 const matches = await match.create(data)
                 await score.create({ team1: 0, team2: 0, matchId: matches.id })
 

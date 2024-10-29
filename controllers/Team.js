@@ -16,7 +16,7 @@ async function getTeam(url) {
     return jsonResponse(nameRespnse, team)
 }
 
-async function addTeam(resquest, respose) {
+async function addTeam(resquest) {
     const name = await json(resquest)
     const team = await createTeam(name)
     const nameRespnse = "team"

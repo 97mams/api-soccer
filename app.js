@@ -38,7 +38,7 @@ const callback = async (request, response) => {
                 results = await addTeamGroup(request, response);
                 break;
             case "GET:/match":
-                results = await getMatchByGroup(request, url);
+                results = await getMatchByGroup(url);
                 break;
             case "GET:/matches":
                 results = await getMatches();

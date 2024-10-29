@@ -1,5 +1,5 @@
 const { jsonResponse } = require("../services/jsonResponseService");
-const { findAllMatchService, addMatchService } = require("../services/matchService");
+const { findAllMatchService, addMatchService, updateStatMatchService } = require("../services/matchService");
 const { json } = require('node:stream/consumers')
 
 async function getMatches() {
@@ -15,4 +15,10 @@ async function addMatch(request) {
     return jsonResponse(nameResponse, match)
 }
 
-module.exports = { getMatches, addMatch }
+async function updateMatch(request, url) {
+    const match = await updateStatMatchService(request, url)
+    const nameResponse = "match"
+    return jsonResponse(nameResponse, match)
+}
+
+module.exports = { getMatches, addMatch, updateMatch }

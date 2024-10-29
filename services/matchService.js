@@ -1,7 +1,9 @@
 const { findAllGroupService } = require('./teamGroupService')
+const { json } = require('node:stream/consumers')
 
 const { match } = require('../models')
 const { score } = require('../models')
+const { updateTeam } = require('./teamService')
 
 const buildMatch = async (teams, groupName) => {
     let result = []
@@ -32,26 +34,40 @@ const addMatchService = async (bool) => {
     return result
 }
 
-/**
- * update states for each teams
- * @param {object} match 
- * @param {object} score 
- * @returns {stat[]}
- */
-const resultMatch = (match, score) => {
+const isDraw = (team1, team2) => {
+    if (team1 === team2) return true
+    return false
+}
+
+const teamWiner = (team1, team2) => {
+    let wine = "team2"
+    if (team1 > team2) {
+        wine = "team1"
+    }
+    return wine
+}
+
+const teamLosser = (team1, team2) => {
+    let lose = "team1"
+    if (team1 > team2) {
+        wine = "team2"
+    }
+    return lose
+}
+
+const resultMatch = (score) => {
     let json
     if (isDraw(score.team1, score.team2)) {
         json = [{
-            team: match.team1,
+            team: "team1",
             data: { win: 0, lose: 0, draw: 1 }
         }, {
-            team: match.team2,
+            team: "team2",
             data: { win: 0, lose: 0, draw: 1 }
         }]
-
     } else {
-        let teamWine = teamWiner(match, score)
-        const teamLose = teamLosser(match, score)
+        let teamWine = teamWiner(score.team1, score.team2)
+        const teamLose = teamLosser(score.team1, score.team2)
         json = [{
             team: teamWine,
             data: { win: 1, lose: 0, draw: 0 }
@@ -64,18 +80,39 @@ const resultMatch = (match, score) => {
     return json
 }
 
-const updateStatMatch = async (request, response, url) => {
-    const matchs = await getMatchs()
-    const matchId = parseInt(url.searchParams.get("id"))
-    const match = matchs.find(m => m.id_match === matchId)
-    const data = await json(request)
-    updateScore(matchId, data)
-    const results = resultMatch(match, data)
-    for (let result of results) {
-        const stat = await updateStat(result.data, result.team)
-        updateTeam(stat, result.team)
+const findByIdMatch = async (id) => {
+    const matchById = await match.findOne({
+        attributes: ["id", "team1", "team2", "teamGroup", "completed"],
+        include: {
+            model: score, as: 'scores', attributes: ["team1", "team2"]
+        },
+        where: { id }
+    })
+    return matchById
+}
+
+const updateStateTeam = async (data, id) => {
+    const matchCurr = await match.findOne({ attributes: ["team1", "team2"], where: { id } })
+    const teamsName = [data[0].team, data[1].team]
+    for (const key in teamsName) {
+        await updateTeam(data[key].data, matchCurr[teamsName[key]])
     }
-    return { message: "successfull" }
+    return findByIdMatch(id)
+}
+
+const updateStatMatchService = async (request, url) => {
+    const id = parseInt(url.searchParams.get("id"))
+    const body = await json(request)
+    const data = resultMatch(body)
+    const [updateScore] = await score.update(body, {
+        where: { matchId: id }
+    })
+    if (updateScore) {
+        await match.update({ completed: true }, {
+            where: { id: id }
+        })
+        return await updateStateTeam(data, id)
+    }
 }
 
 const findAllMatchService = async () => {
@@ -91,4 +128,4 @@ const findAllMatchService = async () => {
     return matches
 }
 
-module.exports = { findAllMatchService, addMatchService }
+module.exports = { findAllMatchService, addMatchService, updateStatMatchService, findByIdMatch }

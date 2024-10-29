@@ -1,7 +1,7 @@
 const { createServer } = require("node:http");
 const { getTeam, getTeams, addTeam, modifTeam } = require("./controllers/Team");
 const { getGroup, addTeamGroup, getGroupByname } = require("./controllers/Group");
-const { getMatches, addMatch, updateMatch } = require("./controllers/Match");
+const { getMatches, addMatch, updateMatch, getMatchByGroup } = require("./controllers/Match");
 
 const port = 3000;
 const host = "127.0.0.1";

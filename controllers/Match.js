@@ -11,7 +11,7 @@ async function getMatches() {
 async function getMatchByGroup(url) {
     const matchBygroup = await getMatchByGroupService(url)
     const nameResponse = 'matches'
-    return jsonResponse(nameResponse, matches)
+    return jsonResponse(nameResponse, matchBygroup)
 }
 
 async function addMatch(request) {

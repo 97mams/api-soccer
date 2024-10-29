@@ -92,15 +92,17 @@ const findByIdMatch = async (id) => {
 }
 
 const getMatchByGroupService = async (url) => {
-    const name = url.SearchParams.get('group')
-    const matchById = await match.findOne({
+    const name = url.searchParams.get('group')
+    const matchBygroup = await match.findAll({
         attributes: ["id", "team1", "team2", "teamGroup", "completed"],
         include: {
             model: score, as: 'scores', attributes: ["team1", "team2"]
         },
-        where: { teamGroup: name }
+        where: { teamGroup: name },
+        limit: 100
     })
-    return matchById
+    const json = { groupName: name, totalMatch: matchBygroup.length, matches: matchBygroup }
+    return json
 }
 
 const updateStateTeam = async (data, id) => {

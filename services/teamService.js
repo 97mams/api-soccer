@@ -83,7 +83,7 @@ async function findAllTeamService() {
     return teams
 }
 
-async function getTeamByName(name) {
+async function findTeamByName(name) {
     const teamByName = await Team.findOne({
         where: { name: name }
     })
@@ -114,7 +114,7 @@ async function updateTeam(params, teamName) {
         state,
         { where: { name: teamName } }
     )
-    return await getTeamByName(teamName)
+    return await findTeamByName(teamName)
 }
 
-module.exports = { findAllTeamService, getTeamByName, createTeam, updateTeam }
+module.exports = { findAllTeamService, findTeamByName, createTeam, updateTeam }

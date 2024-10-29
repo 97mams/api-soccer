@@ -2,14 +2,14 @@ const { jsonResponse } = require("../services/jsonResponseService");
 const { findAllTeamService, getTeamByName, createTeam, updateTeam } = require("../services/teamService")
 const { json } = require("node:stream/consumers");
 
-async function getTeams(resquest, respose) {
+async function getTeams() {
     const teams = await findAllTeamService();
     const nameRespnse = "teams"
 
     return jsonResponse(nameRespnse, teams);
 }
 
-async function getTeam(resquest, respose, url) {
+async function getTeam(url) {
     const name = url.searchParams.get('name');
     const team = await getTeamByName(name)
     const nameRespnse = "team"
@@ -23,7 +23,7 @@ async function addTeam(resquest, respose) {
     return jsonResponse(nameRespnse, team)
 }
 
-async function modifTeam(resquest, respose, url) {
+async function modifTeam(resquest, url) {
     const teamName = url.searchParams.get('name')
     const params = await json(resquest)
     const team = await updateTeam(params, teamName)

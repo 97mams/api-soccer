@@ -91,6 +91,18 @@ const findByIdMatch = async (id) => {
     return matchById
 }
 
+const getMatchByGroupService = async (url) => {
+    const name = url.SearchParams.get('group')
+    const matchById = await match.findOne({
+        attributes: ["id", "team1", "team2", "teamGroup", "completed"],
+        include: {
+            model: score, as: 'scores', attributes: ["team1", "team2"]
+        },
+        where: { teamGroup: name }
+    })
+    return matchById
+}
+
 const updateStateTeam = async (data, id) => {
     const matchCurr = await match.findOne({ attributes: ["team1", "team2"], where: { id } })
     const teamsName = [data[0].team, data[1].team]
@@ -128,4 +140,4 @@ const findAllMatchService = async () => {
     return matches
 }
 
-module.exports = { findAllMatchService, addMatchService, updateStatMatchService, findByIdMatch }
+module.exports = { findAllMatchService, addMatchService, getMatchByGroupService, updateStatMatchService, findByIdMatch }

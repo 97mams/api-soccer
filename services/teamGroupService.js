@@ -1,5 +1,6 @@
 const { TeamGroup, Team, group_type } = require('../models')
 const { json } = require('node:stream/consumers')
+const { findTeamByName } = require('./teamService')
 
 async function randomKeyArrayTeam() {
     const countTeam = (await Team.findAll()).length
@@ -108,7 +109,8 @@ const splitGroupEachName = async (groups) => {
         let teams = []
         for (const group of groupEachNames) {
             if (group.groupTypes.name_type === name) {
-                teams.push(group.Teams.name)
+                const teamName = group.Teams.name
+                teams.push(await findTeamByName(teamName))
             }
         }
         result.push({ name, teams: teams })

@@ -39,7 +39,7 @@ const isDraw = (team1, team2) => {
     return false
 }
 
-const teamWiner = (team1, team2) => {
+const teamWinner = (team1, team2) => {
     let wine = "team2"
     if (team1 > team2) {
         wine = "team1"
@@ -66,7 +66,7 @@ const resultMatch = (score) => {
             data: { win: 0, lose: 0, draw: 1 }
         }]
     } else {
-        let teamWine = teamWiner(score.team1, score.team2)
+        let teamWine = teamWinner(score.team1, score.team2)
         const teamLose = teamLosser(score.team1, score.team2)
         json = [{
             team: teamWine,

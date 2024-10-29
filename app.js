@@ -31,6 +31,9 @@ const callback = async (request, response) => {
             case "GET:/groups":
                 results = await getGroup(request, response);
                 break;
+            case "GET:/groups_order":
+                results = await getGroup(request, response);
+                break;
             case "GET:/group":
                 results = await getGroupByname(url);
                 break;

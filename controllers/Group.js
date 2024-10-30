@@ -7,6 +7,12 @@ async function getGroup() {
     return jsonResponse(nameResponse, groups)
 }
 
+async function getGroupOrder() {
+    const groups = await groupService.findTeamsOrderByPointService()
+    const nameResponse = "groups"
+    return jsonResponse(nameResponse, groups)
+}
+
 async function addTeamGroup(request, response) {
     const teamGroups = await groupService.createTeamGroupService(request, response)
     const nameResponse = "teamGroups"
@@ -15,9 +21,9 @@ async function addTeamGroup(request, response) {
 
 async function getGroupByname(url) {
     const name = url.searchParams.get('type')
-    const group = await groupService.findGroupTeamOrberBynameService(name)
+    const group = await groupService.findGroupTeamOrdSerBynameService(name)
     const nameResponse = "group"
     return jsonResponse(nameResponse, group)
 }
 
-module.exports = { getGroup, addTeamGroup, getGroupByname }
+module.exports = { getGroup, addTeamGroup, getGroupByname, getGroupOrder }

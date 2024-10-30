@@ -151,7 +151,7 @@ function jsonResponseFilterByName(group, name) {
     return { name, total: teams.length, teams }
 }
 
-async function findGroupTeamOrberBynameService(name) {
+async function findGroupTeamOrderBynameService(name) {
     const group = await TeamGroup.findAll({
         attributes: ['id'],
         include: [
@@ -170,9 +170,8 @@ async function findTeamsOrderByPointService() {
             { model: Team, as: "Teams", attributes: ["id", "name", "wins", "losses", "draws", "point", "match"] },
             { model: group_type, as: "groupTypes", attributes: ["name_type"] },
         ],
-        order: '$point$ ASC'
     })
-    return splitGroupEachName(group)
+    return group
 }
 
-module.exports = { findAllGroupService, createTeamGroupService, findGroupTeamOrberBynameService, findTeamsOrderByPointService }   
+module.exports = { findAllGroupService, createTeamGroupService, findGroupTeamOrderBynameService, findTeamsOrderByPointService }   

@@ -170,8 +170,11 @@ async function findTeamsOrderByPointService() {
             { model: Team, as: "Teams", attributes: ["id", "name", "wins", "losses", "draws", "point", "match"] },
             { model: group_type, as: "groupTypes", attributes: ["name_type"] },
         ],
+        order: [
+            ["Teams", "point", "DESC"]
+        ]
     })
-    return group
+    return splitGroupEachName(group)
 }
 
 module.exports = { findAllGroupService, createTeamGroupService, findGroupTeamOrderBynameService, findTeamsOrderByPointService }   

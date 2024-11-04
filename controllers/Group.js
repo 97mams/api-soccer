@@ -21,7 +21,7 @@ async function addTeamGroup(request, response) {
 
 async function getGroupByname(url) {
     const name = url.searchParams.get('type')
-    const group = await groupService.findGroupTeamOrdSerBynameService(name)
+    const group = await groupService.findGroupTeamOrderBynameService(name)
     const nameResponse = "group"
     return jsonResponse(nameResponse, group)
 }

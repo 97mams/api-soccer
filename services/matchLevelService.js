@@ -1,11 +1,11 @@
-const team = require("../models/team");
+const Team = require("../models");
 
 const builderRulesMatch = async (params) => {
     //
 }
 
-const findTeamByPoint = () => {
-    //
+const findTeamByPoint = async () => {
+    return await Team.findOne()
 }
 
-module.export = {};
+module.exports = { findTeamByPoint };

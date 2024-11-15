@@ -2,6 +2,7 @@ const { createServer } = require("node:http");
 const { getTeam, getTeams, addTeam, modifTeam } = require("./controllers/Team");
 const { getGroup, addTeamGroup, getGroupByname, getGroupOrder } = require("./controllers/Group");
 const { getMatches, addMatch, updateMatch, getMatchByGroup } = require("./controllers/Match");
+const { getMatchLevels } = require("./controllers/MatchLevel")
 
 const port = 3000;
 const host = "127.0.0.1";
@@ -51,6 +52,9 @@ const callback = async (request, response) => {
                 break;
             case "PUT:/matches":
                 results = await updateMatch(request, url);
+                break;
+            case "GET:/top":
+                results = await getMatchLevels();
                 break;
             case "OPTIONS:/":
                 response.setHeader('Access-Control-Allow-Headers', 'Accept, Content-Type');

@@ -3,6 +3,8 @@
 ### Introduction
 This API allows you to manage football teams, add new teams, update their statistics, and track performance (wins, losses, points).
 
+For more details, please check out the [documentation](https://doc-soccer-api.vercel.app/)
+
 ### Contributing
 
 Thank you for considering contributing to this project! Here are the steps to get started:
